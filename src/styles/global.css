@@ -1,7 +1,30 @@
-html {
-  background-color: #f1f5f9;
-  font-family: sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-white;
+    @apply font-jetbrains;
+  }
+  html.dark {
+    @apply bg-black;
+    @apply text-white;
+  }
+  .social {
+    @apply fill-black;
+  }
+  .dark .social {
+    @apply fill-white;
+  }
 }
+
+/* html {
+  background-color: #f1f5f9;
+  @apply font-jetbrains;
+} */
 
 body {
   margin: 0 auto;
@@ -81,10 +104,10 @@ a:focus {
   }
 }
 
-html.dark {
+/* html.dark {
   background-color: #0d0950;
   color: #fff;
-}
+} */
 
 .dark .nav-links a {
   color: #fff;
