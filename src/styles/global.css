@@ -6,18 +6,12 @@
 
 @layer base {
   html {
-    @apply bg-white;
+    @apply bg-white dark:bg-black;
+    @apply text-black dark:text-white;
     @apply font-jetbrains;
   }
-  html.dark {
-    @apply bg-black;
-    @apply text-white;
-  }
   .social {
-    @apply fill-black;
-  }
-  .dark .social {
-    @apply fill-white;
+    @apply fill-black dark:fill-white;
   }
 }
 

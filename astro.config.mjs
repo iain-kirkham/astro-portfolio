@@ -6,6 +6,7 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
+  prefetch: true,
   site: "https://iainkirkham.dev",
-  integrations: [tailwind(), expressiveCode(), mdx()]
+  integrations: [tailwind(), expressiveCode(), mdx()],
 });
