@@ -11,6 +11,11 @@
   .social {
     @apply fill-black dark:fill-white;
   }
+
+  .prose code {
+    @apply dark:text-white;
+  }
+
   .prose h1,
   .prose h2,
   .prose p,
