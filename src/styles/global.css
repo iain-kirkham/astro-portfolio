@@ -53,6 +53,10 @@
   .prose *:hover > .anchor {
     @apply visible no-underline;
   }
+
+  .dark img.w-6.h-6 {
+    fill: white; /* Set fill color to white in dark mode */
+  }
 }
 
 body {
