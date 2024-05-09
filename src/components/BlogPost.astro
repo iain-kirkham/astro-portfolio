@@ -1,5 +1,25 @@
 ---
-const { title, url } = Astro.props;
+const { title, url, description, date } = Astro.props;
+const options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
 ---
 
-<li class="py-2"><a href={url}>{title}</a></li>
+<li class="py-2">
+  <a href={url}>
+    <div
+      class="rounded-2xl bg-stone-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800"
+    >
+      <div
+        class="flex h-full w-full flex-col rounded-[1rem] bg-stone-100 p-4 text-gray-900 opacity-90 dark:bg-stone-800 dark:text-white"
+      >
+        <p>{title}</p>
+        <p>{date.toLocaleDateString("en-GB", options)}</p>
+        <p>{description}</p>
+      </div>
+    </div>
+  </a>
+</li>
