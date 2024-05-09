@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
+import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 import tailwind from "@astrojs/tailwind";
 import expressiveCode from "astro-expressive-code";
@@ -13,6 +14,7 @@ export default defineConfig({
   site: "https://iainkirkham.dev",
   integrations: [tailwind(), expressiveCode(), mdx()],
   markdown: {
+    remarkPlugins: [remarkReadingTime],
     rehypePlugins: [
       rehypeHeadingIds,
       rehypeSlug,

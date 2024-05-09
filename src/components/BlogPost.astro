@@ -1,7 +1,7 @@
 ---
 const { title, url, description, date } = Astro.props;
 const options = {
-  weekday: "long",
+  weekday: "short",
   year: "numeric",
   month: "long",
   day: "numeric",
@@ -16,9 +16,12 @@ const options = {
       <div
         class="flex h-full w-full flex-col rounded-[1rem] bg-stone-100 p-4 text-gray-900 opacity-90 dark:bg-stone-800 dark:text-white"
       >
-        <p>{title}</p>
-        <p>{date.toLocaleDateString("en-GB", options)}</p>
-        <p>{description}</p>
+        <p class="text-xs">
+          {date.toLocaleDateString("en-GB", options)}
+        </p>
+        <p class="text-lg font-bold">{title}</p>
+
+        <p class="text-sm">{description}</p>
       </div>
     </div>
   </a>
