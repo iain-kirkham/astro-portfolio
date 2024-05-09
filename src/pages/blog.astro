@@ -2,7 +2,9 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import BlogPost from "@components/BlogPost.astro";
+import { sortByDateDesc } from "src/utils/data.utils";
 const allPosts = await getCollection("posts");
+const sortedPosts = sortByDateDesc(allPosts);
 const pageTitle = "Blog";
 ---
 
@@ -10,7 +12,7 @@ const pageTitle = "Blog";
   <p class="py-2">This is where I will post about my journey learning Astro.</p>
   <ul>
     {
-      allPosts.map((post) => (
+      sortedPosts.map((post: any) => (
         <BlogPost
           url={`/posts/${post.slug}/`}
           title={post.data.title}

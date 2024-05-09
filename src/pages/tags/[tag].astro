@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import BlogPost from "@components/BlogPost.astro";
 import { getCollection } from "astro:content";
+import { sortByDateDesc } from "src/utils/data.utils";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("posts");
@@ -22,13 +23,15 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
+
+const sortedPosts = sortByDateDesc(posts);
 ---
 
 <BaseLayout pageTitle={tag}>
   <p>Posts tagged with {tag}</p>
   <ul>
     {
-      posts.map((post) => (
+      sortedPosts.map((post: any) => (
         <BlogPost
           url={"/posts/" + post.slug}
           title={post.data.title}
