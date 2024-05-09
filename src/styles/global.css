@@ -9,7 +9,7 @@
     @apply text-black bg-white dark:bg-black dark:text-white font-jetbrains scroll-smooth;
   }
   .social {
-    @apply fill-black dark:fill-white;
+    @apply gap-2 p-2 border rounded-lg border-stone-900 dark:border-white dark:fill-white;
   }
 
   .prose code {
