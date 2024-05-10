@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -8,12 +14,16 @@
   html {
     @apply text-black bg-white dark:bg-black dark:text-white font-jetbrains scroll-smooth;
   }
+
+  body {
+    @apply flex flex-col min-h-screen;
+  }
   .social {
     @apply gap-2 p-2 border rounded-lg border-stone-900 dark:border-white dark:fill-white;
   }
 
   .tags {
-    @apply p-2 text-xs bg-stone-200 font-bold dark:bg-stone-800 hover:bg-cyan-500/75 rounded-full transition-colors hover:text-white text-black dark:text-white;
+    @apply p-2 text-xs bg-stone-200 font-bold tracking-wide dark:bg-stone-800 hover:bg-cyan-500/75 rounded-full transition-colors hover:text-white text-black dark:text-white;
   }
 
   .prose code {
