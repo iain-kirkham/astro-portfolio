@@ -7,12 +7,12 @@ const pageTitle = "Tag Index";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="flex flex-wrap gap-2">
+  <div class="flex flex-wrap gap-2 py-6">
     {
       tags.map((tag) => (
-        <p class="p-2 text-lg bg-white border border-dotted rounded border-slate-400 tag">
-          <a class="text-sky-600" href={`/tags/${tag}`}>
-            {tag}
+        <p class="tags">
+          <a class="" href={`/tags/${tag}`}>
+            #{tag}
           </a>
         </p>
       ))

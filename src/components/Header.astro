@@ -5,9 +5,9 @@ import ThemeIcon from "@components/ThemeIcon.astro";
 ---
 
 <header>
-  <nav>
+  <nav class="flex justify-between">
     <Hamburger />
-    <ThemeIcon />
-    <Navigation />
+    <Navigation class="items-start" />
+    <div class="mt-2 items-end"><ThemeIcon /></div>
   </nav>
 </header>

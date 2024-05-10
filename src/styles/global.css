@@ -12,6 +12,10 @@
     @apply gap-2 p-2 border rounded-lg border-stone-900 dark:border-white dark:fill-white;
   }
 
+  .tags {
+    @apply p-2 text-xs bg-stone-200 font-bold dark:bg-stone-800 hover:bg-cyan-500 rounded-full transition-colors hover:text-white text-black dark:text-white;
+  }
+
   .prose code {
     @apply dark:text-white;
   }
