@@ -1,11 +1,6 @@
 ---
 const { title, url, description, date } = Astro.props;
-const options = {
-  weekday: "short",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
+import { dateOptions } from "src/data/utils";
 ---
 
 <li class="py-2">
@@ -14,13 +9,12 @@ const options = {
       class="group rounded-2xl bg-stone-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800"
     >
       <div
-        class="flex h-full w-full flex-col rounded-[1rem] bg-stone-100 p-4 text-gray-900 opacity-90 dark:bg-stone-800 dark:text-white"
+        class="flex h-full w-full flex-col rounded-[1rem] bg-stone-100 p-4 text-gray-900 opacity-85 dark:bg-stone-800 dark:text-white"
       >
         <p class="text-xs -mt-2">
-          {date.toLocaleDateString("en-GB", options)}
+          {date.toLocaleDateString("en-GB", dateOptions)}
         </p>
         <p class="text-xl font-bold py-2">{title}</p>
-
         <p class="text-sm">{description}</p>
         <p class="text-xs pt-4 group-hover:underline">read more →</p>
       </div>

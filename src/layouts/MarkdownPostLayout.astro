@@ -1,17 +1,12 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 const { frontmatter, minutesRead } = Astro.props;
-const options = {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
+import { dateOptions } from "src/data/utils";
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
   <p><em>{frontmatter.description}</em></p>
-  <p>{frontmatter.pubDate.toLocaleDateString("en-GB", options)}</p>
+  <p>{frontmatter.pubDate.toLocaleDateString("en-GB", dateOptions)}</p>
 
   <p>Written by: {frontmatter.author}</p>
   <p>minutes to read: {minutesRead}</p>
