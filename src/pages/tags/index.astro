@@ -10,11 +10,13 @@ const pageTitle = "Tag Index";
   <div class="flex flex-wrap gap-2 py-6">
     {
       tags.map((tag) => (
-        <p class="tags">
-          <a class="" href={`/tags/${tag}`}>
-            #{tag}
-          </a>
-        </p>
+        <div class="taggradient">
+          <p class="tags">
+            <a class="" href={`/tags/${tag}`}>
+              #{tag}
+            </a>
+          </p>
+        </div>
       ))
     }
   </div>

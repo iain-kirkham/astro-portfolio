@@ -14,9 +14,11 @@ import { dateOptions } from "src/data/utils";
   <div class="flex flex-wrap gap-2 py-2">
     {
       frontmatter.tags.map((tag: String) => (
-        <p class="tags">
-          <a href={`/tags/${tag}`}>#{tag}</a>
-        </p>
+        <div class="taggradient">
+          <p class="tags">
+            <a href={`/tags/${tag}`}>#{tag}</a>
+          </p>
+        </div>
       ))
     }
   </div>

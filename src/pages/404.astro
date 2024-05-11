@@ -1,0 +1,29 @@
+---
+import "@styles/global.css";
+import ThemeIcon from "@components/ThemeIcon.astro";
+import { SITE } from "src/data/utils";
+import { Code } from "astro-expressive-code/components";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Error 404 {SITE.title}</title>
+  </head>
+  <ThemeIcon />
+  <body class="text-center">
+    <div class="place-content-center">
+      <h1 class="text-6xl tracking-wide font-bold">Error 404</h1>
+      <Code
+        code="console.log('Error 404: File not found')"
+        title="Error404.js"
+        lang="js"
+      />
+    </div>
+    <script>
+      import "../scripts/menu.js";
+    </script>
+  </body>
+</html>

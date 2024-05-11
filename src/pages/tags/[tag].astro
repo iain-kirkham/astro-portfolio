@@ -27,7 +27,7 @@ const { posts } = Astro.props;
 const sortedPosts = sortByDateDesc(posts);
 ---
 
-<BaseLayout>
+<BaseLayout pageTitle={tag}>
   <p class="text-center text-2xl font-bold py-4">Posts with #{tag}</p>
   <ul>
     {

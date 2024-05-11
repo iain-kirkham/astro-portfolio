@@ -11,3 +11,7 @@ export const socials = {
   LinkedIn: "https://www.linkedin.com/in/iain-kirkham/",
   Email: "mailto:iain.kirkham@outlook.com",
 };
+
+export const SITE = {
+  title: " | iainkirkham.dev",
+};

@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "JetBrainsMono";
-  src: url("/fonts/JetBrainsMono.woff2") format("woff2");
+  font-family: "NotoSans";
+  src: url("/fonts/NotoSans-VariableFont.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -12,7 +12,7 @@
 
 @layer base {
   html {
-    @apply text-black bg-white dark:bg-black dark:text-white font-jetbrains scroll-smooth;
+    @apply text-black bg-white dark:bg-black dark:text-white font-sans scroll-smooth;
   }
 
   body {
@@ -22,8 +22,12 @@
     @apply gap-2 p-2 border rounded-lg border-stone-900 dark:border-white dark:fill-white;
   }
 
+  .taggradient {
+    @apply rounded-2xl bg-stone-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800;
+  }
+
   .tags {
-    @apply p-2 text-xs bg-stone-200 font-bold tracking-wide dark:bg-stone-800 hover:bg-cyan-500/75 rounded-full transition-colors hover:text-white text-black dark:text-white;
+    @apply text-sm font-bold tracking-wide flex-col rounded-[1rem] bg-stone-100 p-2 text-gray-900 opacity-85 dark:bg-stone-800 dark:text-white;
   }
 
   .prose code {
@@ -121,11 +125,6 @@ h1 {
   font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.nav-links a:hover,
-a:focus {
-  background-color: #ff9776;
 }
 
 .expanded {
