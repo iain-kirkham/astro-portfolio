@@ -21,7 +21,7 @@ export default defineConfig({
   },
   prefetch: true,
   site: "https://iainkirkham.dev",
-  integrations: [tailwind(), expressiveCode(), mdx()],
+  integrations: [tailwind({ applyBaseStyles: false }), expressiveCode(), mdx()],
   markdown: {
     remarkPlugins: [remarkReadingTime],
     rehypePlugins: [
