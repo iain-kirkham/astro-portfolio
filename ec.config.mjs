@@ -7,7 +7,7 @@ export default defineEcConfig({
   preserveIndent: true,
   styleOverrides: {
     // You can also override styles
-    borderRadius: "0.5rem",
+    borderRadius: "0.3rem",
     frames: {
       shadowColor: "#124",
     },

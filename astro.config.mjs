@@ -14,22 +14,37 @@ import playformInline from "@playform/inline";
 // https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [FontaineTransform.vite({
-      fallbacks: ["Arial"],
-      resolvePath: id => new URL(`./public${id}`, import.meta.url) // id is the font src value in the CSS
-    })]
+    plugins: [
+      FontaineTransform.vite({
+        fallbacks: ["Arial"],
+        resolvePath: (id) => new URL(`./public${id}`, import.meta.url), // id is the font src value in the CSS
+      }),
+    ],
   },
   prefetch: true,
   site: "https://iainkirkham.dev",
-  integrations: [tailwind({
-    applyBaseStyles: false
-  }), expressiveCode(), mdx(), playformCompress(), playformInline()],
+  integrations: [
+    tailwind({
+      applyBaseStyles: false,
+    }),
+    expressiveCode(),
+    mdx(),
+    playformInline(),
+    playformCompress(),
+  ],
   markdown: {
     remarkPlugins: [remarkReadingTime],
-    rehypePlugins: [rehypeHeadingIds, rehypeSlug, [rehypeAutolinkHeadings, {
-      properties: {
-        class: ["anchor"]
-      }
-    }]]
-  }
+    rehypePlugins: [
+      rehypeHeadingIds,
+      rehypeSlug,
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            class: ["anchor"],
+          },
+        },
+      ],
+    ],
+  },
 });
