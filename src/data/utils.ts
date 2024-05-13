@@ -14,4 +14,5 @@ export const socials = {
 
 export const SITE = {
   title: " | iainkirkham.dev",
+  description: "Welcome to my new website",
 };

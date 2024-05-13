@@ -12,6 +12,15 @@ import { SITE } from "src/data/utils";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={SITE.description} />
+    <link
+      rel="preload"
+      href="/fonts/NotoSans-Reg.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>{pageTitle}{SITE.title}</title>
   </head>
   <body>
