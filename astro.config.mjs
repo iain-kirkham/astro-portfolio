@@ -8,7 +8,6 @@ import mdx from "@astrojs/mdx";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import playformCompress from "@playform/compress";
-
 import playformInline from "@playform/inline";
 
 // https://astro.build/config
