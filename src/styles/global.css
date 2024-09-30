@@ -19,7 +19,7 @@
     @apply flex flex-col min-h-screen;
   }
   .social {
-    @apply gap-2 p-2 border rounded-lg border-stone-900 dark:border-white dark:fill-white;
+    @apply gap-2 p-2 rounded-xl dark:fill-white transition-colors duration-300 ease-in-out;
   }
 
   .taggradient {
