@@ -1,9 +1,9 @@
 @font-face {
-  font-family: "NotoSans";
-  src: url("/fonts/NotoSans-Reg.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "NotoSans";
+	src: url("/fonts/NotoSans-Reg.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @tailwind base;
@@ -11,145 +11,134 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply text-black bg-white dark:bg-black dark:text-white font-sans scroll-smooth;
-  }
+	html {
+		@apply text-black bg-white dark:bg-black dark:text-white font-sans scroll-smooth;
+	}
 
-  body {
-    @apply flex flex-col min-h-screen;
-  }
-  .social {
-    @apply gap-2 p-2 rounded-xl dark:fill-white transition-colors duration-300 ease-in-out;
-  }
+	body {
+		@apply flex flex-col min-h-screen;
+	}
 
-  .taggradient {
-    @apply rounded-2xl bg-stone-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800;
-  }
+	.prose code {
+		@apply dark:text-white;
+	}
 
-  .tags {
-    @apply text-sm font-bold tracking-wide flex-col rounded-[1rem] bg-stone-100 p-2 text-gray-900 opacity-85 dark:bg-stone-800 dark:text-white;
-  }
+	.prose h1,
+	.prose h2,
+	.prose p,
+	.prose strong {
+		@apply dark:text-white;
+	}
 
-  .prose code {
-    @apply dark:text-white;
-  }
+	.prose a {
+		@apply no-underline transition-all text-sky-500;
+	}
 
-  .prose h1,
-  .prose h2,
-  .prose p,
-  .prose strong {
-    @apply dark:text-white;
-  }
+	.prose a:hover {
+		@apply underline text-sky-600 decoration-sky-600 decoration-2;
+	}
 
-  .prose a {
-    @apply no-underline transition-all text-sky-500;
-  }
+	.prose .anchor {
+		@apply absolute invisible;
 
-  .prose a:hover {
-    @apply underline text-sky-600 decoration-sky-600 decoration-2;
-  }
+		margin-left: -1em;
+		padding-right: 0.2em;
+		width: 80%;
+		max-width: 700px;
+		cursor: pointer;
+	}
 
-  .prose .anchor {
-    @apply absolute invisible;
+	.anchor:hover {
+		@apply visible no-underline;
+	}
 
-    margin-left: -1em;
-    padding-right: 0.2em;
-    width: 80%;
-    max-width: 700px;
-    cursor: pointer;
-  }
+	.prose .anchor:after {
+		@apply text-gray-400 dark:text-gray-100;
+		content: "#";
+	}
 
-  .anchor:hover {
-    @apply visible no-underline;
-  }
+	.prose *:hover > .anchor {
+		@apply visible no-underline;
+	}
 
-  .prose .anchor:after {
-    @apply text-gray-400 dark:text-gray-100;
-    content: "#";
-  }
-
-  .prose *:hover > .anchor {
-    @apply visible no-underline;
-  }
-
-  .dark img.w-6.h-6 {
-    fill: white; /* Set fill color to white in dark mode */
-  }
+	.dark img.w-6.h-6 {
+		fill: white; /* Set fill color to white in dark mode */
+	}
 }
 
 body {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 80ch;
-  padding: 1rem;
-  line-height: 1.5;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 80ch;
+	padding: 1rem;
+	line-height: 1.5;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 h1 {
-  margin: 1rem 0;
-  font-size: 2.5rem;
+	margin: 1rem 0;
+	font-size: 2.5rem;
 }
 
 /* nav styles */
 .hamburger {
-  padding-right: 20px;
-  cursor: pointer;
+	padding-right: 20px;
+	cursor: pointer;
 }
 
 .hamburger .line {
-  display: block;
-  width: 40px;
-  height: 5px;
-  margin-bottom: 10px;
-  background-color: #ff9776;
+	display: block;
+	width: 40px;
+	height: 5px;
+	margin-bottom: 10px;
+	background-color: #ff9776;
 }
 
 .nav-links {
-  width: 100%;
-  top: 5rem;
-  left: 48px;
-  background-color: #ff9776;
-  display: none;
-  margin: 0;
+	width: 100%;
+	top: 5rem;
+	left: 48px;
+	background-color: #ff9776;
+	display: none;
+	margin: 0;
 }
 
 .nav-links a {
-  display: block;
-  text-align: center;
-  padding: 10px 0;
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-transform: uppercase;
+	display: block;
+	text-align: center;
+	padding: 10px 0;
+	text-decoration: none;
+	font-size: 1.2rem;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .expanded {
-  display: unset;
+	display: unset;
 }
 
 @media screen and (min-width: 636px) {
-  .nav-links {
-    margin-left: 5em;
-    display: block;
-    position: static;
-    width: auto;
-    background: none;
-  }
+	.nav-links {
+		margin-left: 5em;
+		display: block;
+		position: static;
+		width: auto;
+		background: none;
+	}
 
-  .nav-links a {
-    display: inline-block;
-    padding: 15px 20px;
-  }
+	.nav-links a {
+		display: inline-block;
+		padding: 15px 20px;
+	}
 
-  .hamburger {
-    display: none;
-  }
+	.hamburger {
+		display: none;
+	}
 }
 
 .dark .nav-links a {
-  color: #fff;
+	color: #fff;
 }

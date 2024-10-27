@@ -10,8 +10,8 @@ const pageTitle = "Tag Index";
   <div class="flex flex-wrap gap-2 py-6">
     {
       tags.map((tag) => (
-        <div class="taggradient">
-          <p class="tags">
+        <div class="rounded-2xl bg-stone-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800">
+          <p class="text-sm font-bold tracking-wide flex-col rounded-[1rem] bg-stone-100 p-2 text-gray-900 opacity-85 dark:bg-stone-800 dark:text-white">
             <a class="" href={`/tags/${tag}`}>
               #{tag}
             </a>
