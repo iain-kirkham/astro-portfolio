@@ -1,5 +1,11 @@
-export function sortByDateDesc(posts: any) {
+interface Post {
+	data: {
+		pubDate: Date;
+	};
+}
+
+export function sortByDateDesc(posts: Post[]) {
 	return posts.sort(
-		(a: any, b: any) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+		(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 	);
 }

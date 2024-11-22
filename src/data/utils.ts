@@ -7,7 +7,7 @@ export const dateOptions = {
 
 export const socials = {
 	GitHub: "https://github.com/iain-kirkham",
-	Twitter: "https://twitter.com/iainkirkham97",
+	Bluesky: "https://bsky.app/profile/iainkirkham.dev",
 	LinkedIn: "https://www.linkedin.com/in/iain-kirkham/",
 	Email: "mailto:iain.kirkham@outlook.com",
 };
