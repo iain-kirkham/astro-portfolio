@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import BlogPost from "@components/BlogPost.astro";
 import { sortByDateDesc } from "src/utils/data.utils";
-const allPosts = await getCollection("posts");
+const allPosts = await getCollection("blog");
 const sortedPosts = sortByDateDesc(allPosts);
 const pageTitle = "Blog";
 ---
@@ -14,7 +14,7 @@ const pageTitle = "Blog";
     {
       sortedPosts.map((post: any) => (
         <BlogPost
-          url={`/posts/${post.slug}/`}
+          url={`/posts/${post.id}/`}
           title={post.data.title}
           description={post.data.description}
           date={post.data.pubDate}

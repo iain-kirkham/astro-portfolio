@@ -12,9 +12,6 @@ import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 // https://astro.build/config
 export default defineConfig({
-	legacy: {
-		collections: true,
-	},
 	vite: {
 		plugins: [
 			FontaineTransform.vite({
