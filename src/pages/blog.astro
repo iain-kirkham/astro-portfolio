@@ -6,10 +6,12 @@ import { sortByDateDesc } from "src/utils/data.utils";
 const allPosts = await getCollection("blog");
 const sortedPosts = sortByDateDesc(allPosts);
 const pageTitle = "Blog";
+import { VisitorCount } from "@components/VisitorCount.tsx";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <p class="py-2">This is where I will post about my journey learning Astro.</p>
+  <VisitorCount client:load />
   <ul>
     {
       sortedPosts.map((post: any) => (
