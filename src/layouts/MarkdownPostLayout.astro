@@ -5,11 +5,37 @@ import { dateOptions } from "src/data/utils";
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  <p><em>{frontmatter.description}</em></p>
-  <p>{frontmatter.pubDate.toLocaleDateString("en-GB", dateOptions)}</p>
+  <div class="flex justify-between items-center">
+    <p class="flex items-center gap-2">
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18"
+          width="18"
+          viewBox="0 0 448 512"
+          class="w-4 h-4 dark:fill-white"
+      >
+        <!--! Font Awesome Free 6.7.2 by @fontawesome -->
+        <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256z" />
+      </svg>
+      {frontmatter.pubDate.toLocaleDateString("en-GB", dateOptions)}
+    </p>
+    <p class="flex items-center gap-2">
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18"
+          width="18"
+          viewBox="0 0 512 512"
+          class="w-4 h-4 dark:fill-white"
+      >
+        <!--! Font Awesome Free 6.7.2 by @fontawesome -->
+        <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
+      </svg>
+      {minutesRead}
+    </p>
+  </div>
 
-  <p>Written by: {frontmatter.author}</p>
-  <p>minutes to read: {minutesRead}</p>
+  <p><em>{frontmatter.description}</em></p>
+
 
   <div class="flex flex-wrap gap-2 py-2">
     {

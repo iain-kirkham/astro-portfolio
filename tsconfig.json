@@ -1,16 +1,24 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
     "baseUrl": ".",
-    "paths": {      
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@styles/*" : ["src/styles/*"]
+    "paths": {
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ]
     },
     "plugins": [
       {
         "name": "@astrojs/ts-plugin"
-      },
+      }
     ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   },
   "extends": "astro/tsconfigs/strict"
 }
