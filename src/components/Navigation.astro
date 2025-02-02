@@ -1,9 +1,22 @@
 ---
+import { links } from "src/data/utils";
 
+const currentPath = Astro.url.pathname;
 ---
 
-<div class="nav-links py-2">
-  <a href="/" class="py-1.5 px-3 text-sm rounded-full hover:bg-gray-200 hover:dark:bg-zinc-800 dark:stroke-white fill-none dark:fill-black transition-colors duration-300 ease-in-out">Home</a>
-  <a href="/about/" class="py-1.5 px-3 text-sm rounded-full hover:bg-gray-200 hover:dark:bg-zinc-800 dark:stroke-white fill-none dark:fill-black transition-colors duration-300 ease-in-out">About</a>
-  <a href="/blog/" class="py-1.5 px-3 text-sm rounded-full hover:bg-gray-200 hover:dark:bg-zinc-800 dark:stroke-white fill-none dark:fill-black transition-colors duration-300 ease-in-out">Blog</a>
+<div
+    class="nav-links flex flex-col items-center space-y-4 md:flex-row md:items-center md:space-y-0 md:space-x-4 py-2"
+>
+  {links.map((link) => (
+      <a
+          href={link.href}
+          class={`py-1.5 px-3 text-sm rounded-full transition-colors duration-300 ease-in-out ${
+              currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href))
+                  ? "bg-black dark:bg-white text-white dark:text-black"
+                  : "hover:bg-gray-200 hover:dark:bg-gray-700"
+          }`}
+      >
+        {link.text}
+      </a>
+  ))}
 </div>

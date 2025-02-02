@@ -4,9 +4,80 @@ import ThemeIcon from "@components/ThemeIcon.astro";
 ---
 
 <header class="pb-2">
-  <nav class="flex justify-between">
-    <a href="/" class="py-2 font-bold text-xl dark:text-zinc-200 dark:hover:text-white fill-none text-zinc-800 hover:text-black transition-colors duration-300 ease-in-out">Iain Kirkham</a>
-    <Navigation class="self-start" />
-    <div class="self-center"><ThemeIcon /></div>
+  <nav class="flex justify-between items-center">
+    <a href="/" class="py-2 font-bold text-xl dark:text-gray-200 dark:hover:text-white fill-none text-gray-800 hover:text-black transition-colors duration-300 ease-in-out">
+      Iain Kirkham
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center space-x-4">
+      <Navigation />
+    </div>
+
+    <!-- Theme Icon and Mobile Menu Button -->
+    <div class="flex items-center md:space-x-0">
+      <div class="mr-2 md:mr-0">
+        <ThemeIcon />
+      </div>
+
+      <button
+          id="menu-button"
+          aria-label="Open Menu"
+          class="block md:hidden fill-black p-2 rounded-xl hover:bg-zinc-200 hover:dark:bg-gray-700 dark:stroke-white dark:fill-black transition-colors duration-300 ease-in-out"
+      >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            width="24"
+            viewBox="0 0 448 512"
+            class="dark:fill-white"
+        >
+          <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
+        </svg>
+      </button>
+    </div>
   </nav>
+
+  <!-- Full-Screen Mobile Menu -->
+  <div
+      id="mobile-menu"
+      class="fixed inset-0 z-50 hidden bg-white dark:bg-gray-900 text-black dark:text-white flex-col items-center justify-center space-y-32"
+  >
+    <button
+        id="menu-close"
+        aria-label="Close Menu"
+        class="absolute top-5 right-4 p-2 rounded-xl fill-black hover:bg-zinc-200 hover:dark:bg-gray-700 dark:stroke-white dark:fill-black transition-colors duration-300 ease-in-out"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg"
+           height="24"
+           width="24"
+           viewBox="0 0 384 512"
+           class="dark:fill-white">
+        <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+      </svg>
+    </button>
+
+    <!-- Mobile Navigation Links -->
+    <div>
+      <Navigation />
+    </div>
+  </div>
 </header>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const menuButton = document.getElementById("menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const menuClose = document.getElementById("menu-close");
+
+    if (menuButton && mobileMenu && menuClose) {
+      menuButton.addEventListener("click", () => {
+        mobileMenu.classList.remove("hidden");
+      });
+
+      menuClose.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+      });
+    }
+  })
+</script>

@@ -2,7 +2,7 @@ import { defineEcConfig } from "astro-expressive-code";
 
 export default defineEcConfig({
 	// You can set configuration options here
-	themes: ["catppuccin-mocha"],
+	themes: ["catppuccin-macchiato"],
 	wrap: true,
 	preserveIndent: true,
 	styleOverrides: {

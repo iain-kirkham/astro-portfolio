@@ -16,3 +16,9 @@ export const SITE = {
 	title: " | iainkirkham.dev",
 	description: "Welcome to my new website",
 };
+
+export const links: { href: string; text: string }[] = [
+	{ href: "/", text: "Home" },
+	{ href: "/about/", text: "About" },
+	{ href: "/blog/", text: "Blog" },
+];
