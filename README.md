@@ -1,4 +1,4 @@
-# Astro Starter Kit: Minimal
+# Cloud  Resume Challenge Astro  (Frontend)
 
 ```sh
 npm create astro@latest -- --template minimal

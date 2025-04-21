@@ -1,0 +1,57 @@
+---
+const { frontmatter, Content } = Astro.props;
+---
+
+    <article style="max-width: 800px; margin: auto; padding: 20px;">
+        <header>
+            <h1>{frontmatter.title}</h1>
+
+            {frontmatter.publishDate && (
+                    <time datetime={frontmatter.publishDate.toISOString()}>
+                        {frontmatter.publishDate.toLocaleDateString()}
+                    </time>
+            )}
+
+            {frontmatter.status && <p>Status: {frontmatter.status}</p>}
+
+            {frontmatter.technologies && (
+                    <ul>
+                        {frontmatter.technologies.map((tech) => (
+                                <li>{tech}</li>
+                        ))}
+                    </ul>
+            )}
+
+            {frontmatter.image && (
+                    <img
+                            src={frontmatter.image}
+                            alt={`${frontmatter.title} image`}
+                            style="max-width: 100%; border-radius: 8px;"
+                    />
+            )}
+
+            <p>{frontmatter.description}</p>
+
+            <div>
+                {frontmatter.liveUrl && (
+                        <a href={frontmatter.liveUrl} target="_blank" rel="noopener noreferrer">
+                            Live Demo
+                        </a>
+                )}
+                {frontmatter.githubUrl && (
+                        <a
+                                href={frontmatter.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style="margin-left: 10px;"
+                        >
+                            GitHub Repo
+                        </a>
+                )}
+            </div>
+        </header>
+
+        <section style="margin-top: 40px;">
+            <Content />
+        </section>
+    </article>

@@ -20,35 +20,33 @@
 
 @layer base {
 	html {
-		@apply text-black bg-white dark:bg-gray-900 dark:text-white font-sans scroll-smooth;
+		@apply text-black bg-white dark:bg-gray-950 dark:text-white font-sans scroll-smooth;
 	}
 
 	body {
-		@apply flex flex-col min-h-screen max-w-4xl mx-auto p-4 leading-relaxed;
+		@apply flex flex-col min-h-screen max-w-4xl mx-auto px-2 leading-relaxed;
 	}
 
 	h1 {
 		@apply my-4 text-4xl font-black;
 	}
 
-	.prose code {
-		@apply dark:text-white;
-	}
-
 	.prose h1,
 	.prose h2,
 	.prose h3,
 	.prose p,
-	.prose strong {
+	.prose strong,
+	.prose code,
+	.prose ul {
 		@apply dark:text-white;
 	}
 
 	.prose a {
-		@apply no-underline transition-all text-sky-500;
+		@apply no-underline transition-all text-sky-500 dark:text-sky-400;
 	}
 
 	.prose a:hover {
-		@apply underline text-sky-600 decoration-sky-600 decoration-2;
+		@apply underline text-sky-600 decoration-sky-600 decoration-2 dark:text-sky-500 dark:decoration-sky-500;
 	}
 
 	.prose .anchor {

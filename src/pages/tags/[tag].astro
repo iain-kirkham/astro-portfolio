@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BlogPost from "@components/BlogPost.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { sortByDateDesc } from "src/utils/data.utils";
+import { sortByDateDesc } from "src/data/utils";
 
 export async function getStaticPaths() {
 	const allPosts = await getCollection("blog");

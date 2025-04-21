@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from "astro:content";
+import ProjectLayout from "@/layouts/ProjectLayout.astro";
+
+export async function getStaticPaths() {
+	const projectEntries = await getCollection("projects");
+
+	return projectEntries.map((entry) => ({
+		params: { slug: entry.slug },
+	}));
+}
+
+const { slug } = Astro.params;
+const projectEntry = await getCollection("projects").then((entries) =>
+	entries.find((entry) => entry.slug === slug),
+);
+
+if (!projectEntry) {
+	throw new Error(`Project not found: ${slug}`);
+}
+
+const { Content } = await render(projectEntry);
+const frontmatter = projectEntry.data;
+---
+
+<ProjectLayout frontmatter={frontmatter} Content={Content} />

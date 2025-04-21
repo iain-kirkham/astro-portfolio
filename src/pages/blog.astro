@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BlogPost from "@components/BlogPost.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { sortByDateDesc } from "src/utils/data.utils";
+import { sortByDateDesc } from "src/data/utils";
 const allPosts = await getCollection("blog");
 const sortedPosts = sortByDateDesc(allPosts);
 const pageTitle = "Blog";
@@ -16,12 +16,12 @@ import { VisitorCount } from "@components/VisitorCount.tsx";
   <ul>
     {
       sortedPosts.map((post: any) => (
-        <BlogPost
-          url={`/blog/${post.id}/`}
-          title={post.data.title}
-          description={post.data.description}
-          date={post.data.pubDate}
-        />
+          <BlogPost
+              url={`/blog/${post.id}/`}
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.pubDate}
+          />
       ))
     }
   </ul>

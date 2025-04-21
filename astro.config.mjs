@@ -25,7 +25,8 @@ export default defineConfig({
 	prefetch: {
 		prefetchAll: true,
 	},
-	site: "https://iainkirkham.dev",
+	site: "https://test.iainkirkham.dev",
+	base: "/",
 	integrations: [
 		tailwind({
 			applyBaseStyles: false,

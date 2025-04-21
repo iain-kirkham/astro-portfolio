@@ -1,0 +1,77 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	image: string;
+	technologies?: string[];
+	link?: string;
+	github?: string;
+	id: string;
+}
+
+const {
+	title,
+	description,
+	image,
+	technologies = [],
+	link,
+	github,
+	id,
+} = Astro.props;
+---
+
+<article
+        class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02]"
+>
+    <div class="relative pb-[60%]">
+        <img
+                src={image}
+                alt={`Screenshot of ${title}`}
+                class="absolute inset-0 w-full h-full object-cover"
+        />
+    </div>
+
+    <div class="p-6">
+        <h3 class="text-xl font-bold mb-2">{title}</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">{description}</p>
+
+        <div class="flex flex-wrap gap-2 mb-6">
+            {technologies.map((tech) => (
+                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm">
+          {tech}
+        </span>
+            ))}
+        </div>
+
+        <div class="flex gap-4">
+            {link && (
+                    <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                        View Live
+                    </a>
+            )}
+
+            {github && (
+                    <a
+                            href={github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                        GitHub
+                    </a>
+            )}
+
+            <a
+                    href={`/projects/${id}`}
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+                Details
+            </a>
+        </div>
+    </div>
+</article>
