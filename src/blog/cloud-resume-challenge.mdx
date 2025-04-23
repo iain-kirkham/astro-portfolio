@@ -1,7 +1,7 @@
 ---
 title: "Cloud Resume Challenge"
-pubDate: 2025-02-01
-description: "This is the first post of my new Astro blog."
+pubDate: 2025-04-20
+description: "Learn about my experience of building the Cloud Resume Challenge using Rust and Astro"
 author: "Iain Kirkham"
 tags: ["astro", "rust", "cloud", "learning in public"]
 ---
@@ -131,9 +131,15 @@ to bring them under Terraform management. While transitioning to Terraform, I us
 ## Diving into DevOps with GitHub actions
 
 Now that I had everything set up, I decided to try using GitHub actions to automate the deployment of my website and Lambda function.
+This turned out to be more challenging than I expected, due to using the cargo lambda tool, which requires a local installation of Zig for ARM64.
+I also had issues with OIDC as I had not configured the GitHub repository to allow access to the AWS account.
+However once I had everything working it was as easy as pushing a commit to the main branch, and the website and backend was automatically deployed.
 
 ![AWS workflow](./aws-workflow.webp)
 
 
 ## What's next?
 
+ - I would like to add more logging features using cloudwatch logging, and change my API to allow for a visitor count on each blog post.
+ - I would like to build with Spring boot and explore React.
+ - I would like to study and achieve my AWS Certified Solutions Architect certification.

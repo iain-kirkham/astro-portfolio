@@ -21,6 +21,13 @@ export default defineConfig({
 				resolvePath: (id) => new URL(`./public${id}`, import.meta.url), // id is the font src value in the CSS
 			}),
 		],
+		resolve: {
+			alias: {
+				'@components/*': 'src/components/*',
+				'@layouts/*': 'src/layouts/*',
+				'@styles/*': 'src/styles/*'
+			}
+		}
 	},
 	prefetch: {
 		prefetchAll: true,
