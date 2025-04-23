@@ -133,7 +133,7 @@ to bring them under Terraform management. While transitioning to Terraform, I us
 Now that I had everything set up, I decided to try using GitHub actions to automate the deployment of my website and Lambda function.
 This turned out to be more challenging than I expected, due to using the cargo lambda tool, which requires a local installation of Zig for ARM64.
 I also had issues with OIDC as I had not configured the GitHub repository to allow access to the AWS account.
-However once I had everything working it was as easy as pushing a commit to the main branch, and the website and backend was automatically deployed.
+However once I had everything working, it was as easy as pushing a commit to the main branch, and the website and backend was automatically deployed.
 
 ![AWS workflow](./aws-workflow.webp)
 
