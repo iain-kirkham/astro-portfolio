@@ -43,7 +43,7 @@ I configured an A record pointing to my CloudFront distribution, and set up an S
 complete with a custom domain and HTTPS!
 
 
-## Building a serverless backend—The Rust way
+## Building a serverless backend with Rust
 
 Now this is where things start to get more interesting. For this part of the challenge, I needed to build an API using AWS Lambda that would track visitors to my website,
 with the data stored in a database.  I used DynamoDB a fast, serverless, and cost-effective database, which pairs perfectly with the serverless nature of Lambda.
@@ -70,7 +70,7 @@ The switch to Rust enabled significant infrastructure improvements:
 - Architecture migration: x86 → ARM64
 - Cost per ms: $0.0000000083 → $0.0000000017 **(79.5% savings)**
 
-While these numbers may seem small, they add up quickly at scale and demonstrate a massive gain in efficiency from using Rust.
+While these numbers may seem small, they add up quickly at scale and show a massive gain in efficiency from using Rust.
 
 ### Troubleshooting CORS Challenges
 While building my Lambda function, I encountered a flag in the HTTP headers, When testing responses in Postman,
@@ -95,8 +95,11 @@ content-length: 0
 The API when tested locally from cURL did end up responding as expected,
 so I knew that the CORS middleware cors layer was working as intended.
 It was just varied the responses depending on what headers were sent to the API.
-I also decided to have a look at the Mozilla HTTP docs for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#access-control-allow-origin),
-which confirmed that my CORS middleware was working as intended.
+Consulting the Mozilla HTTP docs for [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#access-control-allow-origin),
+confirmed the CORS middleware works as intended.
+
+Furthermore, another issue I had was when I was writing my lambda, I decided to limit it to only POST requests, this caused an issue when I was trying to use an APIGateway,
+this is because all pre-flight OPTIONS requests were being blocked, to fix this, I simply changed my lambda to also allow for preflight OPTIONS requests.
 
 ### Integration Testing with Cargo
 
@@ -110,7 +113,7 @@ Each test sets up the required resources and automatically cleans them up afterw
 
 ### Using the API with Astro and React
 
-To display visitor data on my frontend, I integrated my API with Astro and React. Astro handles the static structure of the page,
+To display visitor data on my portfolio website, I integrated my API with Astro and React. Astro handles the static structure of the page,
 while React provides interactivity for fetching and updating visitor counts dynamically.
 
 Within React, I used TypeScript to ensure the API returns a number, improving type safety. Additionally,
@@ -131,15 +134,15 @@ to bring them under Terraform management. While transitioning to Terraform, I us
 ## Diving into DevOps with GitHub actions
 
 Now that I had everything set up, I decided to try using GitHub actions to automate the deployment of my website and Lambda function.
-This turned out to be more challenging than I expected, due to using the cargo lambda tool, which requires a local installation of Zig for ARM64.
-I also had issues with OIDC as I had not configured the GitHub repository to allow access to the AWS account.
-However once I had everything working, it was as easy as pushing a commit to the main branch, and the website and backend was automatically deployed.
+This turned out to be more challenging than I expected, due to using the cargo lambda tool, initially I was .
+I also had issues with OpenID Connect (OIDC) as I had not configured the GitHub repository to allow access to the AWS account, this required me to .
+Once I had everything working, it was as easy as pushing a commit to the main branch, and the website and the backend are automatically deployed.
 
 ![AWS workflow](./aws-workflow.webp)
 
 
 ## What's next?
 
- - I would like to add more logging features using cloudwatch logging, and change my API to allow for a visitor count on each blog post.
+ - I would like to add more logging features using cloudwatch logging and change my API to allow for a visitor count on each blog post.
  - I would like to build with Spring boot and explore React.
  - I would like to study and achieve my AWS Certified Solutions Architect certification.

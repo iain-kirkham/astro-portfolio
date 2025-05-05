@@ -5,9 +5,10 @@ interface VisitorResponse {
 }
 
 /**
- * Visitor count will use browser fetch to return visitor data from my lambda API, then parse the data into a number,
- * If it is not a number or there is an error, then setError to true and log in console, catch error if API doesn't  return
- * as expected, set loading to false and return data or error.
+ * Use fetch in the browser to retrieve visitor data from the Lambda API.
+ * Parse the response into a number.
+ * If the result isn't a valid number or an error occurs, set the error to true and log the error to the console.
+ * Catch any errors if the API response isn't as expected, set loading to false, and handle either the returned data or the error.
  */
 export function VisitorCount() {
 	const [visitorData, setVisitorData] = useState<number | null>(null);
