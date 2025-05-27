@@ -8,6 +8,7 @@ import { defineConfig } from "astro/config";
 import { FontaineTransform } from "fontaine";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import rehypeMermaid from "rehype-mermaid";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
 
 import react from "@astrojs/react";
@@ -23,11 +24,11 @@ export default defineConfig({
 		],
 		resolve: {
 			alias: {
-				'@components/*': 'src/components/*',
-				'@layouts/*': 'src/layouts/*',
-				'@styles/*': 'src/styles/*'
-			}
-		}
+				"@components/*": "src/components/*",
+				"@layouts/*": "src/layouts/*",
+				"@styles/*": "src/styles/*",
+			},
+		},
 	},
 	prefetch: {
 		prefetchAll: true,
@@ -45,9 +46,14 @@ export default defineConfig({
 		react(),
 	],
 	markdown: {
+		syntaxHighlight: {
+			type: "shiki",
+			excludeLangs: ["mermaid"],
+		},
 		remarkPlugins: [remarkReadingTime],
 		rehypePlugins: [
 			rehypeHeadingIds,
+			[rehypeMermaid, { strategy: "img-svg", dark: true }],
 			rehypeSlug,
 			[
 				rehypeAutolinkHeadings,

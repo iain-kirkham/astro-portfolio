@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 const { frontmatter, minutesRead } = Astro.props;
-import { dateOptions } from "src/data/utils";
+import { dateOptions, getTagStyles } from "src/data/utils";
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
@@ -37,18 +37,18 @@ import { dateOptions } from "src/data/utils";
 
   <p class="py-2"><em>{frontmatter.description}</em></p>
 
-
   <div class="flex flex-wrap gap-2 pb-6">
     {
-      frontmatter.tags.map((tag: String) => (
-        <div>
-          <p class="text-sm capitalize px-2 py-1 rounded-md border border-black/15 dark:border-white/25">
-            <a href={`/tags/${tag}`}>#{tag}</a>
-          </p>
-        </div>
+      frontmatter.tags.map((tag: string) => (
+          <div>
+            <p class={`text-xs font-medium capitalize px-2 py-1 rounded border transition-colors duration-200 hover:brightness-105 dark:hover:brightness-125 ${getTagStyles(tag)}`}>
+              <a href={`/tags/${tag}`} class="no-underline">
+                #{tag}
+              </a>
+            </p>
+          </div>
       ))
     }
   </div>
-
   <slot />
 </BaseLayout>

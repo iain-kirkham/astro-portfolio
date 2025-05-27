@@ -11,14 +11,9 @@ import { VisitorCount } from "@components/VisitorCount.tsx";
 
 <BaseLayout pageTitle={pageTitle}>
   <h1>{pageTitle}</h1>
-  <p class="py-2">Welcome to my tech blog. This is where I document my learning journey in public as I work with Java,
-    Spring, AWS, and Rust as a developer. By sharing my projects, technical challenges, and solutions,
-    I'm creating both an accountability system for myself and a resource that might help others on similar paths.
-    Each post represents a step in my skill development both progress and the inevitable hurdles along the way.
-    Here you'll find code implementations, architecture decisions, and lessons learned from building with cloud technologies.
-    Thanks for being visitor: <VisitorCount client:load />.</p>
-
-  <ul>
+  <p>Welcome to my blog where I share my journey as a developer in the cloud with AWS and Spring. I'm also exploring Rust. I write about my projects, the technical challenges I run into, and my thoughts from events I attend.
+  Thanks for being visitor: <VisitorCount client:load />. </p>
+  <ul class="py-2">
     {
       sortedPosts.map((post: any) => (
           <BlogPost

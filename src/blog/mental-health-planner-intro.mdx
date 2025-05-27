@@ -1,0 +1,225 @@
+---
+title: "Building my Digital Planner in public."
+pubDate: 2025-05-26
+description: "Join me as I start to build my digital planner, in this blog I'll be exploring my tech stack choices, and core workflow diagrams in Mermaid.js."
+author: "Iain Kirkham"
+tags: ["learning in public", "typescript", "java", "nextjs"]
+---
+
+
+## Motivation
+
+When I was exploring options for digital planners and to-do apps, I found an overwhelming number of options, but very few fit
+what I felt my needs are. So that's where this project comes in I want to build an app that will help me track my daily moods
+and what has affected my mood, allowing me to be able to.
+
+## Tech stack
+
+### Frontend
+
+For the frontend I've chosen Next.js, based on React. React has a vast ecosystem of components and an excellent community. Next.js's app router pattern offers
+a fantastic and scalable structure for web applications, making data fetching and navigation intuitive. Another advantage is Next.js offers
+support for **Server-Side Rendering (SSR)** and **Static Site Generation (SSG)** out-of-the-box developers can render pages on the server to help reduce loading times drastically,
+and improving overall user experience.
+
+To speed up UI development, I'll be leveraging the Shadcn/ui library. Based on Radix primitives and styled with Tailwind CSS,
+Shadcn/ui provides customisable components, allowing for perfect integration with my design vision while offering great accessibility features.
+
+For state management I'm opting for [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction).
+I'm interested in its performance and minimalist API. With its intuitive store creation, small bundle size, hook-based access,
+and even reduced boilerplate, I hope it will prove to be a solid choice I come back to in the future.
+
+
+Additionally, for data fetching I plan to use [TanStack Query](https://tanstack.com/query/latest) formerly known as React Query.
+This library has a stellar reputation in the React community for its ease of use, and powerful toolset including caching, background updates, SSR support, and more!
+
+### Backend
+
+Spring Boot will power the backend of this application. I have always desired a dive deep into the Spring ecosystem and to get back into Java development.
+Beyond personal learning, I'm drawn to Spring Boot's incredibly powerful feature set, which will be invaluable for easily expanding the application's features in the future.
+Its robust nature and deep integrations with Spring cloud for cloud platforms like AWS also make it an ideal choice for a reliable and scalable backend service as the project grows.
+
+For the database, I will be using PostgreSQL. Its reliability, performance, and rich feature set make it a strong choice for storing and managing the application's data.
+
+### Authentication
+
+For authentication, I'm building on top of the [Clerk](https://clerk.com/) user management platform. Handling user authentication is notoriously complex and developers can fall into many security pitfalls,
+so it's a domain where reinventing the wheel is rarely a good idea. Clerk offers an amazing, first-class library of features specifically for Next.js and React apps,
+including seamless middleware integration, and pre-built UI components. Clerk has a generous free tier, making it a compelling choice for personal projects.
+Most importantly for my use-case, Clerk allows for the use of JSON Web Tokens (JWTs), which provides the flexibility needed to integrate securely with my custom Spring Boot backend.
+
+## Diagrams
+
+To give myself a clearer picture of how my application will fit together, I've used diagrams to visualise the overall application structure,
+key workflows, and the database schema using Entity Relationship Diagrams (ERDs). These visuals translate complex descriptions into easily understandable diagrams.
+
+### Database Schema (ERD)
+
+This Entity Relationship Diagram (ERD) outlines the tables in my PostgreSQL database and their relationships, providing a clear overview of the application's data model.
+
+```mermaid
+erDiagram
+    users ||--o{ pomodoro_sessions : "has"
+    pomodoro_sessions {
+        UUID id
+        UUID user_id
+        TIMESTAMPTZ session_start_time
+        TIMESTAMPTZ session_end_time
+        SMALLINT score
+        TEXT notes
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+    users {
+        UUID id
+        VARCHAR clerk_user_id
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+    users ||--o{ mood_entries : "tracks"
+    mood_entries {
+        UUID id
+        UUID user_id
+        SMALLINT mood_rating
+        TIMESTAMPTZ entry_datetime
+        JSONB factors_affected_mood
+        TEXT notes
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+    users ||--o{ tasks : "manages"
+    tasks {
+        UUID id
+        UUID user_id
+        VARCHAR title
+        TEXT description
+        TIMESTAMPTZ due_datetime
+        BOOLEAN is_completed
+        TIMESTAMPTZ completed_at
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+    tasks ||--o{ subtasks : "has"
+        subtasks {
+        UUID id
+        UUID task_id
+        VARCHAR title
+        BOOLEAN is_completed
+        TIMESTAMPTZ completed_at
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+```
+
+### Pomodoro feature flow
+
+This flowchart shows the user's journey through the pomodoro feature, from starting the pomodoro session, setting the timer,
+to pausing and stopping the timer, and completing the feedback form for the session to be saved for later reference.
+
+```mermaid
+flowchart TD
+    A[User Opens App] --> B[User Selects Pomodoro Feature];
+    B --> C[User Sets Session Length];
+    C --> D[User Clicks Start Pomodoro];
+    D --> E{Timer Running?};
+
+    E -- Yes --> F[Display Timer];
+    F --> G{Pause/Stop?};
+    G -- Pause --> H[Timer Paused];
+    H --> I[User Resumes/Stops];
+    G -- Stop --> J[Reset Timer];
+
+    E -- No (Timer End - 25 min) --> K[Display Feedback Form];
+    K --> L[User Enters Rating 1-5];
+    L --> M[User Adds Notes Optional];
+    M --> N[User Clicks Submit Feedback];
+
+    N --> O{Feedback Valid & Submitted?};
+    O -- No --> P[Display Feedback Error Message];
+    P --> K;
+
+    O -- Yes --> Q[Save Session Data Including Feedback];
+    Q --> R[Reset Timer];
+    R --> S[Return to Pomodoro];
+```
+
+### Mood tracker feature flow
+
+This flowchart shows the user flow for the mood tracker; from selecting their mood from very bad to very good,
+they'll be able to add notes on what affected them that day, they will also be able to tag factors that affected their mood.
+These features will make it easier for the user to filter and interpret their mood data to find patterns and improve their quality of life.
+
+```mermaid
+flowchart TD
+    A[User Opens App] --> B[User Navigates to Mood Tracker];
+    B --> C[Display Mood Entry Form];
+    C --> D[User Selects Mood Rating 1-5];
+    D --> E[User Selects Factors Affecting Mood Optional];
+    E --> F[User Adds Notes Optional];
+    F --> G[User Clicks Save Mood];
+    G --> H{Data Saved?};
+    H -- No --> I[Display Error Message];
+    I --> C;
+    H -- Yes --> J[Display Mood Saved Confirmation];
+    J --> K[Display Mood History / Trends];
+    K --> L[Return to Dashboard];
+```
+
+### Planner and Task management feature flow
+
+This flowchart is the most complex with being the main feature of the application. The user will start
+on their current calendar week, where they can view all of their tasks for that week, clicking on the day of the week they can add tasks;
+each task has a title, description, data/time, and subtasks. The user will be able to tick off tasks and subtasks from the main task list,
+they will also be able to edit any task or delete it from the calendar directly.
+
+```mermaid
+flowchart TD
+    A[User Opens App] --> B[User Navigates to Planner];
+    B --> C[Display Task List];
+
+    %% Path 1: Add New Task
+    C --> D{Add New Task?};
+    D -- Yes --> E[Open Task Creation Form];
+    E --> F[Enter Task Title];
+    F --> G[Enter Task Description Optional];
+    G --> H[Set Date/Time ];
+    H --> I[Click Save Task];
+    I --> C;
+    %% Path 2: Mark Task Complete/Incomplete Directly from List
+    C --> J[Select Task to Mark Complete/Incomplete from List];
+    J --> K[Update Task Status from List];
+    K --> C;
+
+    %% Path 3: Select Existing Task to Open Details
+    D -- No --> L{Select Existing Task to View/Edit?};
+    L -- Yes --> M[Open Task Details];
+
+    M --> P{Edit Task?};
+    P -- Yes --> Q[Open Task Edit Form];
+    Q --> R[Modify Task Details];
+    R --> S[Save Changes];
+    S --> M;
+
+    M --> U{Delete Task?};
+
+    U --> V[Remove Task];
+    V --> C;
+
+    %% Subtask Management within Task Details View
+    M --> W[Add Subtask];
+    W --> X[Enter Subtask Title/Details];
+    X --> Y[Save task];
+    Y --> M;
+
+    M --> AA[Edit/Delete Subtask];
+    AA --> M;
+
+    L -- No --> C;
+```
+
+## The journey has only begun!
+
+I hope this overview of my application has been inciteful, and you join me on this journey. I will be updating this blog
+ with the challenges I face and how I overcome them, and tips learned along the way, so please check back soon!
+
+jobs@onebigcircle.co.uk

@@ -1,0 +1,77 @@
+---
+title: "Learning from the Community: Key Takeaways from a round of Testing Lightning Talks"
+pubDate: 2025-05-23
+description: "I recently attended an evening packed full of testing talks, come found out what I learned!"
+author: "Iain Kirkham"
+tags: ["testing", "learning in public", "typescript", "java"]
+---
+
+## Lightning talks
+
+Recently I attended an evening of lightning tech talks all centered around testing and the different approaches that a few key players use in the industry.
+Throughout this article I'll be sharing some of the lessons I have learned from safety-critical testing, to an interesting approach to testing cloud and
+distributed system software in the component test framework. Finally, I'll wrap up with mobile automation testing and how it can help speed up development for mobile apps.
+
+## Testing safety-critical software - When testing really matters!
+
+When you're creating software to stop aircraft crashing mid-air, or trains colliding, you have to be sure they work!
+This is where rigorous testing strategies come in for this type of software often referred to as safety-critical software.
+When developing safety-critical software, there are rigorous requirements that are written that must be met and verified;
+this ensures that the software is compliant with the regulatory standards.
+
+This level of assurances requires highly specialised approaches, from the strict system requirements, software specification, and even component specifications.
+One of the parts of Capgemini's toolkit for safety-critical software is the programming language Ada, most notably [SPARK ADA](https://www.adacore.com/about-spark).
+This language is formally defined with a minimal runtime, so all code written in this language is guaranteed to be safe from certain classes of errors.
+
+Beyond the language itself, the talk highlighted Capgemini's Crucible, a powerful set of tools designed for safety-critical software.
+Crucible is used to generate tests from the Alloy modelling language, a formal method for specifying system behaviour. Crucible is then used to generate these tests
+which test the software against the software specification, and the component specifications.
+
+This approach to safety-critical software was an interesting exploration, seeing how deep software development and testing can be formalised.
+
+
+## Open Source Test framework (Component Test Framework)
+
+Developing software for the cloud and distributed systems presents unique testing challenges. Traditional **unit testing**, while
+excellent for testing isolated application logic, if often falls short when it comes to external dependencies such as databases, message brokers, caches, or cloud services.
+Developers and Test engineers typically find themselves mocking these integrations, which can lead to integration flaws going undetected.
+
+This is where the [Component Test Framework](https://github.com/lydtechconsulting/component-test-framework) comes in, the specific framework I learned about developed by
+Lydtech Consulting, leverages the **Spring Framework** with [Testcontainers](https://testcontainers.com/).
+This allows developers to spin up real instances of external services (databases, kafka, and even cloud services using local stack)
+in **docker containers**. This enables microservices to be tested comprehensively in a local, and developer-friendly environment, which also helps bridge the gap between
+unit testing and integration testing providing confidence in component interactions.
+
+The use of Testcontainers also allows developers to extend the Component Test Framework to support additional services that are not yet supported, simply by writing their own Testcontainers
+implementations. Overall, this framework has some interesting features, such as the ability to run tests in parallel, and the ability to run tests in a docker container
+with a specific configuration, and also has great documentation.
+
+This approach to developing software for the cloud is quite exciting to me, and I look forward to implementing it into my mental health application, as I am using PostgreSQL and planning to deploy on AWS.
+It feels like a great way to learn about different approaches to testing without having to worry about the cost of running integration tests directly in the cloud during development.
+
+## Mobile Automation Testing with Appium
+
+Mobile automation testing has a critical role in the development of mobile applications, as there is a wide array of challenges: screen sizes, operating systems,
+and even connectivity challenges. Therefore, ensuring software works on mobiles requires extensive testing.
+
+The talk highlighted Appium, an open-source tool that allows testers to write automated tests for native, hybrid, and mobile web apps on both Android and iOS.
+Appium allows automated tests to be written in JavaScript (recommended), Java, Python, Ruby, and .NET with tests being cross-platform, meaning tests can be written once
+and used across multiple devices. This is a powerful tool as it can be integrated into CI/CD to automatically test an app for UI and functionality, potentially saving days of effort
+by condensing it into a single day.
+
+While discussing best practices for testing in Appium and other frameworks like XCUITest for iOS, the Page Object Model (POM) was emphasised as a way to ensure test are
+reproducible and maintainable. The POM works by creating an object repository for all UI elements on a "page", or in mobile apps "screens". This allows reuse of these objects across many test scripts.
+This also helps with maintenance where if a UI element is updated, you will only need to maintain the POM, and it will be reflected across all test scripts.
+
+
+## Closing thoughts
+
+Attending these lightning talks was a reminder of how diverse software development, and especially testing,
+is from the rigorous requirements testing of safety-critical software, to the issues of local testing in cloud and distributed systems.
+Even the diverse array of mobile devices and how each app has to be tested across all types of devices, be it iPhone or Android.
+
+Looking ahead, I would like to expand my skills with the Component Test Framework with my own projects, and I will also be looking into using Page Object Models,
+for the frontend of my app with Playwright.  I have also noticed the adoption of Rust in safety-critical systems due to its memory safety and strict type checking,
+with AdaCore even joining the Rust Foundation.
+
+I hope you enjoyed reading this, and I encourage you to go find a local meet up you never know what you might learn!
