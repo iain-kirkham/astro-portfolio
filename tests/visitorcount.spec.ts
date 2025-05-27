@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const API_POST_URL = "https://nfx6fa3mni.execute-api.eu-west-2.amazonaws.com/";
-const BLOG_PAGE_URL = "https://iainkirkhamd.dev/blog";
+const BLOG_PAGE_URL = "https://iainkirkham.dev/blog";
 
 test.describe("Blog Page Visitor Count", () => {
 	test("increments visitor count by 1", async ({ page, request }) => {
