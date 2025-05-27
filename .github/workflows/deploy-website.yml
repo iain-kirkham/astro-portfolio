@@ -17,10 +17,10 @@ jobs:
           aws-region: eu-west-2
       - name: Install pnpm
         run: npm install -g pnpm
-      - name: Install playwright (for mermaid.js)
-        run: pnpm exec playwright install
       - name: Install modules
         run: pnpm install --frozen-lockfile
+      - name: Install playwright (for mermaid.js)
+        run: pnpm exec playwright install
       - name: Build website
         run: pnpm build
       - name: Deploy to S3
