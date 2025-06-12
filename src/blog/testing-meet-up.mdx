@@ -20,20 +20,20 @@ When developing safety-critical software, there are rigorous requirements that a
 this ensures that the software is compliant with the regulatory standards.
 
 This level of assurances requires highly specialised approaches, from the strict system requirements, software specification, and even component specifications.
-One of the parts of Capgemini's toolkit for safety-critical software is the programming language Ada, most notably [SPARK ADA](https://www.adacore.com/about-spark).
+One of the parts of Capgemini's toolkit for safety-critical software is the programming language Ada, more specifically [SPARK ADA](https://www.adacore.com/about-spark).
 This language is formally defined with a minimal runtime, so all code written in this language is guaranteed to be safe from certain classes of errors.
 
 Beyond the language itself, the talk highlighted Capgemini's Crucible, a powerful set of tools designed for safety-critical software.
 Crucible is used to generate tests from the Alloy modelling language, a formal method for specifying system behaviour. Crucible is then used to generate these tests
-which test the software against the software specification, and the component specifications.
+which test the software against the software specifications, and component specifications.
 
-This approach to safety-critical software was an interesting exploration, seeing how deep software development and testing can be formalised.
+This approach to safety-critical software was an interesting exploration, seeing how software development and testing can be formalised using specific toolsets.
 
 
 ## Open Source Test framework (Component Test Framework)
 
 Developing software for the cloud and distributed systems presents unique testing challenges. Traditional **unit testing**, while
-excellent for testing isolated application logic, if often falls short when it comes to external dependencies such as databases, message brokers, caches, or cloud services.
+excellent for testing isolated application logic, it often falls short when it comes to external dependencies such as databases, message brokers, caches, or cloud services.
 Developers and Test engineers typically find themselves mocking these integrations, which can lead to integration flaws going undetected.
 
 This is where the [Component Test Framework](https://github.com/lydtechconsulting/component-test-framework) comes in, the specific framework I learned about developed by
@@ -42,7 +42,7 @@ This allows developers to spin up real instances of external services (databases
 in **docker containers**. This enables microservices to be tested comprehensively in a local, and developer-friendly environment, which also helps bridge the gap between
 unit testing and integration testing providing confidence in component interactions.
 
-The use of Testcontainers also allows developers to extend the Component Test Framework to support additional services that are not yet supported, simply by writing their own Testcontainers
+The use of Testcontainers also allows developers to extend the Component Test Framework to support additional services that are not yet supported by writing their own Testcontainers
 implementations. Overall, this framework has some interesting features, such as the ability to run tests in parallel, and the ability to run tests in a docker container
 with a specific configuration, and also has great documentation.
 

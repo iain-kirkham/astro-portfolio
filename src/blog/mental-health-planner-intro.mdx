@@ -11,7 +11,9 @@ tags: ["learning in public", "typescript", "java", "nextjs"]
 
 When I was exploring options for digital planners and to-do apps, I found an overwhelming number of options, but very few fit
 what I felt my needs are. So that's where this project comes in I want to build an app that will help me track my daily moods
-and what has affected my mood, allowing me to be able to.
+and what has affected my mood, allowing me to better plan my days. I would also like a pomodoro timer to help me stay focused
+and give myself feedback on sessions, so I can improve my productivity, over time. Finally, I would like to be able to track my
+daily tasks and schedule them for the week, so I can stay on top of my schedule and stay focused.
 
 ## Tech stack
 
@@ -23,12 +25,11 @@ support for **Server-Side Rendering (SSR)** and **Static Site Generation (SSG)**
 and improving overall user experience.
 
 To speed up UI development, I'll be leveraging the Shadcn/ui library. Based on Radix primitives and styled with Tailwind CSS,
-Shadcn/ui provides customisable components, allowing for perfect integration with my design vision while offering great accessibility features.
+Shadcn/ui provides customisable components, allowing for perfect integration with my design while offering great accessibility features.
 
 For state management I'm opting for [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction).
 I'm interested in its performance and minimalist API. With its intuitive store creation, small bundle size, hook-based access,
 and even reduced boilerplate, I hope it will prove to be a solid choice I come back to in the future.
-
 
 Additionally, for data fetching I plan to use [TanStack Query](https://tanstack.com/query/latest) formerly known as React Query.
 This library has a stellar reputation in the React community for its ease of use, and powerful toolset including caching, background updates, SSR support, and more!
@@ -40,6 +41,12 @@ Beyond personal learning, I'm drawn to Spring Boot's incredibly powerful feature
 Its robust nature and deep integrations with Spring cloud for cloud platforms like AWS also make it an ideal choice for a reliable and scalable backend service as the project grows.
 
 For the database, I will be using PostgreSQL. Its reliability, performance, and rich feature set make it a strong choice for storing and managing the application's data.
+
+### Docker
+
+For containerisation, I will be using Docker. Docker is a powerful tool for building, deploying, and testing applications in a reproducible environment.
+It's a great choice for this project as it allows me to easily deploy the application to a cloud platform like AWS,
+and also allows me to easily run my application and database locally in development.
 
 ### Authentication
 
@@ -221,5 +228,3 @@ flowchart TD
 
 I hope this overview of my application has been inciteful, and you join me on this journey. I will be updating this blog
  with the challenges I face and how I overcome them, and tips learned along the way, so please check back soon!
-
-jobs@onebigcircle.co.uk

@@ -1,7 +1,7 @@
 ---
 title: "Cloud Resume Challenge"
 pubDate: 2025-04-20
-description: "Learn about my experience of building the Cloud Resume Challenge using Rust and Astro"
+description: "Built with Astro, powered by Rust, and deployed with Terraform. Automated and tested with GitHub Actions, with plenty of real-world issues (and fixes) along the way."
 author: "Iain Kirkham"
 tags: ["astro", "rust", "cloud", "learning in public"]
 ---
@@ -19,7 +19,7 @@ I was inspired by discussions on serverless environments such as AWS lambda. The
 like [Rust](https://www.rust-lang.org/) a greener and more efficient choice for cloud computing.
 
 To make this challenge more exciting, I've decided to make a few modifications instead of using plain HTML and CSS, I chose [Astro](https://astro.build/), a modern framework optimised for fast, content-driven websites.
-Additionally, with the increasing focus on software supply chain security, I have integrated key security measures aligning with security best practices from the [SLSA](https://slsa.dev/).
+Additionally, with the increasing focus on software supply chain security, I have integrated a few security practices into the project.
 
 ## Building a website for the stars with Astro
 
@@ -165,6 +165,7 @@ It was trickier than expected due to using cargo lambda. After digging into the 
 
 I also added a job that runs cargo audit to check for security issues and switched to GitHub’s new ARM64 runners for deploying the Lambda. This skips the cross-compilation for x86, which reduces build times.
 
+To ensure that I didn't use any long-term AWS credentials which could be abused, I implemented OpenID Connect in my GitHub actions workflows. This allows GitHub to securely request temporary AWS credentials at runtime.
 While running the pipelines, I hit an unexpected problem; OpenID Connect (OIDC) wasn’t properly set up. So when I ran them, my GitHub repositories didn’t have access to the AWS account. I had to update my Terraform code to specify the correct repositories and AWS audience.
 
 Once it was all working, deployment became as easy as pushing to the main branch of the repository, and it will be deployed automatically.
