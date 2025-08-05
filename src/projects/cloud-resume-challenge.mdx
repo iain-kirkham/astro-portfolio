@@ -1,0 +1,96 @@
+---
+title: "Cloud Resume Challenge"
+description: "high-performance cloud resume built with Rust and Astro, achieving 97.8% faster cold starts and 84.2% memory reduction compared to traditional Java implementations. Features automated CI/CD, Infrastructure as Code with Terraform, and comprehensive security practices including OIDC authentication and CloudFront OAC."
+publishDate: 2025-04-20
+githubUrl: "https://github.com/iain-kirkham/cloud-resume-challenge-rust"
+liveUrl: "https://iainkirkham.dev/"
+technologies: ["Rust", "AWS", "TypeScript", "React", "Astro"]
+status: "Completed"
+---
+
+## Overview
+My attempt at the Cloud Resume Challenge, built with performance and sustainability in mind. This project demonstrates full-stack cloud development using cutting-edge technologies and best practices for infrastructure, security, and automation.
+
+## Key Achievements
+### Performance Optimisation
+
+- 97.8% faster cold starts: Reduced from 5,596 ms (Java) to 125 ms (Rust).
+- 84.2% memory reduction: From 152MB to 24MB average usage.
+- 79.5% cost savings: Optimised Lambda pricing through efficient resource usage.
+- Response time improvement: From ~140 ms to 6-8 ms average API response.
+
+## Architecture and Technologies
+
+- Frontend: Astro static site generator with React components for dynamic content.
+- Backend: Rust-powered AWS Lambda functions with DynamoDB storage.
+- Infrastructure: Terraform for Infrastructure as Code (IaC).
+- Deployment: Automated CI/CD with GitHub Actions and OIDC authentication.
+- Hosting: AWS S3 + CloudFront CDN with custom domain and SSL.
+
+## Technical Highlights
+
+### Sustainable Cloud Computing
+Chose Rust over Java for serverless functions to reduce environmental impact and improve user experience through:
+
+- Minimal memory footprint
+- Faster execution times
+- Reduced cold start penalties
+- ARM64 architecture optimisation
+
+## Development Practices
+
+- Content Management: Astro's Content Collections API for seamless blog post creation.
+- Code Quality: Biome for linting and formatting.
+- Type Safety: TypeScript integration in both Astro, and React.
+- Testing: Integration tests with Cargo and E2E testing with Playwright.
+- Security: Supply chain security practices and AWS credential management via OIDC.
+
+## Infrastructure as Code
+
+- Migrated from AWS CloudFormation to Terraform for better flexibility and code structure.
+- Modular architecture separating frontend and backend resources.
+- Resource import capabilities for existing infrastructure.
+- Environment-specific configurations for testing and production.
+
+## Key Challenges Solved
+### CORS Configuration
+
+Debugged CORS issues between local development and AWS API Gateway, including proper handling of preflight OPTIONS requests and Vary headers.
+
+### Race Conditions in Testing
+
+Resolved Playwright test flakiness by implementing sequential test execution to prevent concurrent counter-increments.
+
+### CI/CD Pipeline Optimisation
+
+- Implemented ARM64 GitHub runners to eliminate cross-compilation overhead.
+- Implemented caching to reduce build times.
+- Integrated Cargo Lambda via pip for serverless Rust deployment.
+- Added security auditing with cargo audit in the pipeline.
+
+## Authentication & Security
+
+- Replaced long-term AWS credentials with OpenID Connect for secure, temporary access.
+- Proper repository and audience configuration for GitHub Actions.
+- Origin Access Control (OAC) for CloudFront to secure S3 bucket access and to prevent direct bucket exposure.
+
+## Development Workflow
+
+- **Local Development:** Cargo Lambda with live reloading for rapid iteration
+- **Testing:** Automated integration and E2E tests ensuring functionality
+- **Deployment:** Push-to-deploy automation via GitHub Actions
+
+## Technologies Used
+
+- **Languages:** Rust, TypeScript, JavaScript
+- **Frameworks:** Astro, React
+- **Cloud Services:** AWS Lambda, DynamoDB, S3, CloudFront, Route53, API Gateway, Certificate Manager
+- **Infrastructure:** Terraform
+- **CI/CD:** GitHub Actions with OIDC
+- **Testing:** Playwright, Cargo test framework
+- **Tooling:** Cargo Lambda, Biome, Tailwind CSS, JetBrains
+
+## Future Enhancements
+
+- CloudWatch logging integration for improved observability
+- Individual blog post visitor tracking

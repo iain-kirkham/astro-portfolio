@@ -1,0 +1,122 @@
+---
+title: "Mental Health Planner"
+description: "Mental health and productivity application built with Next.js and Spring Boot, featuring mood tracking, pomodoro timers, and task management."
+publishDate: 2025-07-20
+githubUrl: "https://github.com/iain-kirkham/Mental_Health_App"
+technologies: ["Java", "TypeScript", "React", "NextJS"]
+status: "In Progress"
+---
+
+## Overview
+A full-stack digital planner designed to help users track daily moods, manage productivity through pomodoro sessions, and organise tasks effectively.
+I'm building this as a learning-in-public project, this application hopes to be useful as an easy-to-use all in one platform for productivity and mood tracking.
+
+## Key Features
+### Mental Health and Mood Tracking
+
+- **Daily Mood Rating:** 1-5 scale mood tracking with timestamp recording.
+- **Mood Factors:** Tag and categorise factors affecting daily mood to help recognise negative patterns.
+- **Notes and Reflection:** Optional detailed notes for deeper analysis and effects on moods.
+- **Historical Trends (Planned):** Track mood patterns over time for wellness insights
+
+### Productivity Management
+
+- **Pomodoro Timer:** Configurable focus sessions with pause/resume functionality.
+- **Session Feedback:** Post-session rating and notes for productivity analysis.
+- **Performance Tracking (Planned):** Historical pomodoro data for productivity insights.
+
+### Task and Schedule Management
+
+- **Weekly Calendar View:** Visual task organisation by day and week
+- **Task Hierarchy:** Main tasks with subtasks for more flexibility
+- **Flexible Scheduling:** Date/time assignment with completion tracking
+- **CRUD Operations (Planned):** Full create, read, update, delete functionality for tasks
+
+## Technical Architecture
+### Frontend Stack
+
+- **Next.js with App Router:** Server-side rendering and static site generation for optimal performance
+- **React:** Component-based UI with extensive ecosystem support
+- **Shadcn/ui:** Accessible component library built on Radix primitives and Tailwind CSS
+- **TypeScript:** End-to-end type safety for improved developer experience
+
+### Backend Stack
+
+- **Spring Boot:** Enterprise grade Java framework with a comprehensive feature set.
+- **PostgreSQL:** Reliable ACID compliant database with JSON support for robust data storage.
+- **Gradle:** Fast build tool with incremental compilation and Kotlin DSL.
+- **Docker:** Containerised development and TestContainers testing environments for consistency.
+
+### Authentication and Security
+
+- **Clerk Integration:** Production-ready user management with JWT support.
+- **CORS Configuration:** Proper cross-origin resource sharing setup.
+- **Bean Validation:** Server-side data validation with constraint annotations.
+- **Secure Environment Variables:** Docker-based secret management.
+
+## Architecture Highlights
+### Layered Backend Design
+
+- **Entity Layer:** JPA entities with Lombok annotations for reduced boilerplate.
+- **DTO Layer:** Separate data transfer objects for API contract stability.
+- **Service Layer:** Business logic encapsulation with DTO Entity mapping.
+- **Repository Layer:** Spring Data JPA for simplified data access.
+- **Controller Layer:** RESTful API endpoints with comprehensive validation.
+
+## Modern Testing Strategy
+
+- **Unit Testing:** JUnit 5 and Mockito for isolated component testing.
+- **Integration Testing:** Docker TestContainers with real PostgreSQL instances.
+- **Test Configuration:** Reusable TestContainers Configuration with @ServiceConnection.
+- **Environment Parity:** Testing against production-like database environments.
+
+## Development Workflow
+### Project Management
+
+- **GitHub Projects:** Agile kanban board for feature tracking and prioritisation.
+- **MVP Focus:** Clear distinction between essential features and future enhancements.
+- **Learning in Public:** Transparent development process with regular blog updates.
+
+
+## Technical Challenges Solved
+### CORS Configuration
+Successfully resolved cross-origin resource sharing issues between Next.js frontend and Spring Boot backend through proper configuration and experience from the cloud resume challenge.
+
+### Testcontainers Integration
+Overcame container lifecycle issues in integration testing by implementing a configuration shared across test classes, ensuring consistent database connections between test units.
+
+## Data Flow Diagrams
+### Entity Relationship Design
+
+- Users with one-to-many relationships to mood entries, pomodoro sessions, and tasks.
+- Tasks with hierarchical subtask relationships.
+- Comprehensive timestamp tracking for all entities.
+
+## Current Status and plans
+### Completed Features
+
+- Complete Spring Boot backend with layered architecture.
+- Mood entry and Pomodoro CRUD operations with validation.
+- Comprehensive testing strategy with Testcontainers.
+- Database design and entity relationships.
+- CORS configuration and API integration.
+
+### Immediate Priorities
+
+- Planner backend integration with database persistence.
+- User authentication implementation with Clerk.
+- Frontend state management with Zustand for Pomodoro.
+
+### Long-term Goals
+
+- Historical data visualisation and trend analysis
+- Productivity analytics and insights
+
+## Technologies Used
+
+- **Frontend:** Next.js, React, TypeScript, Shadcn/ui, Tailwind CSS
+- **Backend:** Spring Boot, Java, PostgreSQL, Gradle, Docker
+- **Authentication:** Clerk with JWT integration (planned)
+- **Testing:** JUnit 5, Mockito, Docker TestContainers
+- **Development:** Docker Compose, GitHub Projects, Learning in Public methodology
+- **Planned:** Zustand, TanStack Query

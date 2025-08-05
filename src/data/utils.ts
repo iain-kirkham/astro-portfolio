@@ -1,3 +1,5 @@
+import type { CollectionEntry } from "astro:content";
+
 export const dateOptions = {
 	weekday: "short",
 	year: "numeric",
@@ -21,6 +23,7 @@ export const links: { href: string; text: string }[] = [
 	{ href: "/", text: "Home" },
 	{ href: "/about/", text: "About" },
 	{ href: "/blog/", text: "Blog" },
+	{ href: "/projects/", text: "Projects" },
 ];
 
 interface Post {
@@ -33,6 +36,18 @@ export function sortByDateDesc(posts: Post[]) {
 	return posts.sort(
 		(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 	);
+}
+
+export function sortProjectsByDate(projects: CollectionEntry<"projects">[]) {
+	return projects.sort((a, b) => {
+		if (a.data.publishDate && b.data.publishDate) {
+			return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+		}
+		if (a.data.publishDate) return -1;
+		if (b.data.publishDate) return 1;
+		// fallback to title alphabetical
+		return (a.data.title ?? "").localeCompare(b.data.title ?? "");
+	});
 }
 
 export const getTagStyles = (tag: string): string => {

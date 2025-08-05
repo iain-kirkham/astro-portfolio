@@ -1,0 +1,323 @@
+---
+title: "Building my Digital Planner in public: Building a backend in spring (part 1)"
+pubDate: 2025-07-13
+description: "In this first backend-focused post, I'll explore my tech stack choices, layered architecture decisions, and modern testing strategies with Docker Testcontainers."
+author: "Iain Kirkham"
+tags: ["learning in public", "java", "testing"]
+---
+
+Welcome to my second post in the digital planner series! While my first post explored the project's vision and initial planning,
+this post dives deep into the technical implementation of the Spring Boot backend that powers my mental health and productivity app.
+I'll walk you through my architectural decisions, technology choices, and the valuable lessons learned while building and testing my Spring backend.
+
+## Project Planning and Management
+
+While developing my mental health app, I also had a few ideas of potential improvements and found that there are plenty of features to implement; to help me keep track of
+these features, I have decided to use GitHub Projects. This allows me to use a more agile approach more effectively tracking and prioritising features that are essential to the MVP,
+and creating a backlog of features or fixes which I may need to implement. With the kanban board I can make each feature in its own card, assign effort values, and link any GitHub issues
+and PRs related to the feature, giving a comprehensive view of the project.
+
+## Backend Architecture
+
+### Technology Stack Selection
+
+I created my Spring application using [Spring Initializr](https://start.spring.io/), I configured the initial setup by selecting the Java version,
+Spring version, and build tool. I chose Gradle for its fast compilation and support for incremental builds, which helps reduce iteration time during development.
+
+- **Performance:** Gradle's incremental builds and build cache significantly reduce compilation time during development.
+- **Readability:** Gradle's Kotlin-based DSL is more concise and expressive than Maven's XML configuration.
+- **Flexibility:** Gradle's programmatic build scripts offer greater customisation options.
+- **Modern Tooling:** In my experience, Gradle has offered better IDE integration and a smoother experience than Maven.
+
+This choice allows me to focus more on implementing core application functionality rather than wasting time on complicated build configurations.
+
+
+### Database Environment: PostgreSQL with Docker
+
+I chose PostgreSQL as my database as I have been interested in exploring it, and also for its JSON support and ACID compliance. To ensure consistency across development and testing environments, I containerised the database using Docker:
+
+- **Development Environment**: Uses the official PostgreSQL Docker image via Docker Compose, providing a consistent local development experience.
+I use environment variables in Docker to ensure that database usernames and passwords aren't leaked, along with passing in the secret keys for Clerk authentication.
+
+- **Integration Testing:**, Utilises Testcontainers with a PostgreSQL docker image. This allows me to spin up isolated, ephemeral database instances that more closely replicate the production environment,
+enabling more reliable and reproducible tests. I’ll explore this setup in more detail in the testing section.
+
+### Backend Implementation: Layered Architecture
+
+Developing a REST API in Spring boot requires organisation of code into distinct layers, each with their own responsibility.
+This principle is called separation of concerns. It ensures every part of the application has a clear purpose, keeping the
+code clean and maintainable. The main layers I'm using in my application are Entities, DTOs, Services,
+and Controllers.
+
+
+While learning Spring, I read the book [Spring getting started](https://www.manning.com/books/spring-start-here).
+It gave me a solid foundation in Spring from the core spring context to building and testing applications.
+
+### Entity Layer: Data Model Representation
+
+Entities serve as the contract between the PostgreSQL database and Java application, defining exactly how data is structured, stored, and retrieved.
+They represent the core data structures and their relationships while ensuring type safety and constraint enforcement across both the Java application and the database.
+The MoodEntry entity demonstrates a few important design decisions:
+
+- Getter, Setter, and other annotations from Lombok to reduce boilerplate code.
+- Short for mood scores: Memory-efficient storage for the 1-5 mood range.
+- Instant for timestamps: Allowing me to store accurate timestamps that can be manipulated later for other timezones.
+- JSON column for factors: Flexible storage without rigid schema constraints allowing me to store dynamic mood arrays.
+- Bean Validation: Allowing data validation from min, max, and null checking ensuring data integrity.
+
+```java
+@Entity
+@Table(name = "mood_entry")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+public class MoodEntry {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Min(1)
+    @Max(5)
+    @NotNull
+    @Column(nullable = false)
+    private Short moodScore;
+
+    @NotNull
+    @Column(nullable = false)
+    private Instant dateTime;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "factors")
+    private List<String> factors;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+}
+```
+
+
+### Data Transfer Objects (DTOs): API Contract Definition
+
+DTOs provide a stable interface between the API and clients, decoupling internal database entities from the API responses sent to frontend applications.
+A few benefits of using Data Transfer Objects are:
+
+- **API Stability:** Database changes won't break client contracts.
+- **Security:** Prevents accidental exposure of internal fields that the client shouldn't have access to.
+- **Validation:** Different validation rules for different operations, for example, the creation DTO validates the data where the response which retrieves from the database doesn't need to.
+- **Versioning:** Easy to maintain multiple API versions.
+
+```java
+@Getter @Setter @NoArgsConstructor @ToString
+public class MoodEntryResponseDTO {
+    private Long id;
+    private Short moodScore;
+    private Instant dateTime;
+    private List<String> factors;
+    private String notes;
+}
+
+@Getter @Setter @NoArgsConstructor @ToString
+public class MoodEntryCreationDTO {
+    @Min(1)
+    @Max(5)
+    @NotNull
+    private Short moodScore;
+
+    @NotNull
+    private Instant dateTime;
+
+    private List<String> factors;
+
+    private String notes;
+}
+```
+
+### Repository Layer: Data Access
+
+The repository layer handles data persistence and retrieval. Spring Data JPA makes this simple:
+
+```java
+@Repository
+public interface MoodEntryRepository extends JpaRepository<MoodEntry, Long> {
+    // JpaRepository provides standard CRUD operations automatically
+}
+```
+
+### Controller Layer: API Gateway
+
+The controller acts as the bridge between HTTP requests and the application's business logic which is in the service layer.
+This layer receives requests from the frontend or clients through an HTTP request and ensures that the request is properly formatted,
+and passes it on to the correct service for processing.
+
+Here is a snippet from my MoodEntryController showing how a new mood entry is created:
+
+```java
+@RestController
+@RequestMapping("api/mood")
+public class MoodEntryController {
+
+    private final MoodEntryService moodEntryService;
+
+    public MoodEntryController(MoodEntryService moodEntryService) {
+        this.moodEntryService = moodEntryService;
+    }
+
+    @PostMapping
+    public ResponseEntity<MoodEntryResponseDTO> createMoodEntry(@RequestBody @Valid MoodEntryCreationDTO creationDTO) {
+        MoodEntryResponseDTO responseDTO = moodEntryService.createMoodEntry(creationDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+```
+
+**Annotation Breakdown:**
+
+- @RestController: Combines @Controller and @ResponseBody, automatically serialising return values to JSON and reducing boilerplate code.
+- @RequestMapping("api/mood"): Sets the base URL path for all endpoints in this controller
+- @PostMapping: Maps HTTP POST requests to this method
+- @RequestBody: Converts the incoming JSON request body into a Java object
+- @Valid: Triggers validation rules defined on the DTO (such as @NotNull, @Min, @Max, etc.)
+
+**What This Method Does:**
+
+- Receives POST requests from the /api/mood route.
+- Automatically deserialises the JSON request body to a MoodEntryCreationDTO.
+- Validates the DTO using Bean Validation annotations as shown earlier.
+- Passes the validated data to the service layer named mood entry service.
+- Wraps the service response in a ResponseEntity with HTTP 201 (Created) status if successful.
+- Spring automatically serialises the response DTO back to JSON.
+
+### Service Layer: Business Logic
+
+The service layer encapsulates all business logic and coordinates between the controller layer (which handles HTTP requests) and the data access layer (the repository that interacts with the database).
+It also manages the conversion between DTOs (Data Transfer Objects) used by the API and entities used by the database.
+```java
+@Service
+public class MoodEntryService {
+
+    private final MoodEntryRepository moodEntryRepository;
+
+    public MoodEntryService(MoodEntryRepository moodEntryRepository) {
+        this.moodEntryRepository = moodEntryRepository;
+    }
+
+    public MoodEntryResponseDTO createMoodEntry(MoodEntryCreationDTO creationDTO) {
+        MoodEntry moodEntryToSave = toEntity(creationDTO);
+        MoodEntry savedMoodEntry = moodEntryRepository.save(moodEntryToSave);
+        return toDto(savedMoodEntry);
+    }
+
+    // Mapping methods convert between DTOs and entities
+    private MoodEntry toEntity(MoodEntryCreationDTO creationRequest) {
+        MoodEntry entity = new MoodEntry();
+        entity.setMoodScore(creationRequest.getMoodScore());
+        entity.setDateTime(creationRequest.getDateTime());
+        entity.setFactors(creationRequest.getFactors());
+        entity.setNotes(creationRequest.getNotes());
+        return entity;
+    }
+
+    private MoodEntryResponseDTO toDto(MoodEntry entity) {
+        MoodEntryResponseDTO moodResponse = new MoodEntryResponseDTO();
+        moodResponse.setId(entity.getId());
+        moodResponse.setMoodScore(entity.getMoodScore());
+        moodResponse.setDateTime(entity.getDateTime());
+        moodResponse.setFactors(entity.getFactors());
+        moodResponse.setNotes(entity.getNotes());
+        return moodResponse;
+    }
+
+    public MoodEntryResponseDTO createMoodEntry(MoodEntryCreationDTO creationDTO) {
+        // TODO when adding multiple users get the authenticated user ID and set it on the entity before saving
+        MoodEntry moodEntryToSave = toEntity(creationDTO);
+        MoodEntry savedMoodEntry = moodEntryRepository.save(moodEntryToSave);
+        return toDto(savedMoodEntry);
+    }
+}
+```
+
+**Current Features:**
+The Spring application currently supports creating new mood entries along with full CRUD operations for creating, reading, updating, and deleting mood entries.
+Custom exception handling is implemented for resource not found scenarios, ensuring graceful error responses.
+User authentication is planned as a future enhancement to associate mood entries with individual users.
+
+**Architecture Benefits:**
+This layered architecture separates each layer into a single responsibility: controllers handle HTTP requests, services manage business logic, and repositories handle data access.
+This improves maintainability and testability, while DTO mapping protects API contracts from database changes.
+
+### The CORS (Cross-Origin Resource Sharing) strike back!
+
+When integrating the application through fetch in my Next.js frontend, I encountered Cross-Origin Resource Sharing (CORS) issues, similar to what I had experienced in my cloud resume project.
+I was able to resolve this with the knowledge I had gained from the cloud resume challenge; the configuration below shows the HTTP methods my Spring app allows, along with OPTIONS as required.
+I have also added comments reminding me to change this configuration for production and checking security configurations at a later time.
+
+```java
+@Configuration
+public class CorsConfig {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000") //change when moving to production as this is local.
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*") //for security, look at limiting headers allowed.
+                        .allowCredentials(true);
+            }
+        };
+    }
+}
+```
+
+## Modern Testing: Unit, Integration, and Docker Testcontainers
+
+To ensure the reliability of a modern application, we need to test it before deploying it in production contexts; to help me do this, I have implemented
+a multi-layered testing strategy which includes unit tests and integration test which implement Testcontainers.
+
+- **Unit Tests** are used to verify individual components of my spring application in isolation, focusing primarily on service layer logic. For my unit testing I am using
+JUnit5 as the testing framework along with Mockito for mocking dependencies, this allows me to test the components of the application without relying on external systems.
+
+An example of unit testing is in the pomodoro session test when trying to get a session by ID. I test both the success and failure scenarios: if the session exists, it should return as expected,
+and when the session does not exist, it should return the error that the session was not found as intended. This approach ensures that both the happy path and error handling work correctly in isolation.
+
+- **Integration Tests** Integration testing validates the interactions between components, particularly focusing on database operations and the integration between my application and PostgreSQL.
+Rather than using in-memory databases (e.g. [H2](https://www.h2database.com/html/main.html)) that may behave differently than production systems. I am using Testcontainers to spin up temporary PostgreSQL instances for each test suite.
+This approach ensures that tests run against real PostgreSQL databases, eliminating environment-specific issues. Another benefit of this approach is that it gives me confidence that deployments will work with the database as expected as it has been tested,
+against the same database.
+
+While implementing Testcontainers, I initially encountered an issue where one integration test would work in isolation, but when running multiple tests,
+later tests would fail due to the Docker container restarting with a new port during the test lifecycle.
+This seemed to be caused by using an abstract base class for test configuration, as the container instance and its dynamically assigned port weren't being properly shared across test classes.
+
+Luckily, I managed to discover a fix for this issue through a Jetbrains blog post [Testing Spring Boot Applications Using Testcontainers;](https://blog.jetbrains.com/idea/2024/12/testing-spring-boot-applications-using-testcontainers/)
+this blog post is a great read to learn more about test containers and spring boot.
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+public class TestcontainersConfiguration {
+    @Bean
+    @ServiceConnection
+    PostgreSQLContainer<?> postgresContainer() {
+        return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
+    }
+}
+```
+
+This configuration class also has a few benefits from modern spring, first the `@ServiceConnection` annotation will automatically configure the database connection properties,
+removing the need for manual property configuration. I can then import this configuration class into any of my integration tests using `@Import(TestcontainersConfiguration.class)`,
+which provides a clean and reusable approach to using postgres with my integration tests and ensures consistent container lifecycle across all tests.
+
+## Next steps and future enhancements
+
+There's still plenty of work to be done on the project I've got a few priorities:
+
+### Immediate Priorities
+
+- **Planner Backend Integration:** Add the planner to the backend allowing saving and retrieval from the database to the frontend.
+- **User Authentication:** Implement user authentication allowing users to sign in and save their moods, planner, and pomodoro sessions.
+- **Pomodoro State Management:** Add state to the pomodoro timer to allow page switching while a timer is active using Zustand.
+
+### Longer-term Goals
+
+- **Historical Data Views:** Add the ability to view the histories of the moods and pomodoro sessions.

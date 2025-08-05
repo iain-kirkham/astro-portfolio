@@ -2,19 +2,10 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ProjectCard from "@components/ProjectCard.astro";
 import { getCollection } from "astro:content";
+import { sortProjectsByDate } from "src/data/utils";
 
 const allProjects = await getCollection("projects");
-
-// Sort by publishDate descending if available, else by title alphabetically
-const sortedProjects = allProjects.sort((a, b) => {
-	if (a.data.publishDate && b.data.publishDate) {
-		return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-	}
-	if (a.data.publishDate) return -1;
-	if (b.data.publishDate) return 1;
-	// fallback to title alphabetical
-	return (a.data.title ?? "").localeCompare(b.data.title ?? "");
-});
+const sortedProjects = sortProjectsByDate(allProjects);
 
 const pageTitle = "Projects";
 ---
@@ -29,34 +20,21 @@ const pageTitle = "Projects";
                 </p>
         ) : (
                 <section>
-                    <h2 class="text-2xl font-semibold mb-6">All Projects</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {sortedProjects.map((project) => {
-                            const {
-                                title,
-                                description,
-                                image,
-                                technologies,
-                                liveUrl,
-                                githubUrl,
-                                status,
-                            } = project.data;
-
-                            return (
-                                    <ProjectCard
-                                            key={project.id}
-                                            title={title}
-                                            description={description}
-                                            image={image}
-                                            tags={technologies}
-                                            link={liveUrl}
-                                            github={githubUrl}
-                                            id={project.id}
-                                            status={status}
-                        />
-                            );
-                        })}
-                    </div>
+                    <ul class="list-none">
+                        {sortedProjects.map((project) => (
+                                <ProjectCard
+                                        title={project.data.title}
+                                        description={project.data.description}
+                                        image={project.data.image}
+                                        technologies={project.data.technologies}
+                                        liveUrl={project.data.liveUrl}
+                                        githubUrl={project.data.githubUrl}
+                                        id={project.id}
+                                        status={project.data.status}
+                                        publishDate={project.data.publishDate}
+                                />
+                        ))}
+                    </ul>
                 </section>
         )}
     </main>

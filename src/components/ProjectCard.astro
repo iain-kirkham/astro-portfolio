@@ -2,11 +2,13 @@
 interface Props {
 	title: string;
 	description: string;
-	image: string;
+	image?: string;
 	technologies?: string[];
-	link?: string;
-	github?: string;
+	liveUrl?: string;
+	githubUrl?: string;
 	id: string;
+	status?: string;
+	publishDate?: Date;
 }
 
 const {
@@ -14,64 +16,80 @@ const {
 	description,
 	image,
 	technologies = [],
-	link,
-	github,
+	liveUrl,
+	githubUrl,
 	id,
+	status,
+	publishDate,
 } = Astro.props;
+
+import { dateOptions, getTagStyles } from "src/data/utils";
+
+// Status color mapping
+const getStatusStyles = (status: string) => {
+	switch (status?.toLowerCase()) {
+		case "completed":
+			return "bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-200";
+		case "in progress":
+			return "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-200";
+		case "on hold":
+			return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-200";
+		default:
+			return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-700 dark:text-gray-200";
+	}
+};
 ---
 
-<article
-        class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02]"
->
-    <div class="relative pb-[60%]">
-        <img
-                src={image}
-                alt={`Screenshot of ${title}`}
-                class="absolute inset-0 w-full h-full object-cover"
-        />
-    </div>
-
-    <div class="p-6">
-        <h3 class="text-xl font-bold mb-2">{title}</h3>
-        <p class="text-gray-600 dark:text-gray-300 mb-4">{description}</p>
-
-        <div class="flex flex-wrap gap-2 mb-6">
-            {technologies.map((tech) => (
-                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm">
-          {tech}
-        </span>
-            ))}
-        </div>
-
-        <div class="flex gap-4">
-            {link && (
-                    <a
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                    >
-                        View Live
-                    </a>
-            )}
-
-            {github && (
-                    <a
-                            href={github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
-                    >
-                        GitHub
-                    </a>
-            )}
-
-            <a
-                    href={`/projects/${id}`}
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+<li class="py-2">
+    <a href={`/projects/${id}`}>
+        <div
+                class="group rounded-2xl bg-gray-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800"
+        >
+            <div
+                    class="flex h-full w-full flex-col rounded-[1rem] bg-gray-100 p-4 text-gray-900 opacity-85 dark:bg-gray-800 dark:text-white"
             >
-                Details
-            </a>
+                <div class="flex justify-between items-start mb-2">
+                    {publishDate && (
+                            <p class="text-xs -mt-2">
+                                {publishDate.toLocaleDateString("en-GB", dateOptions)}
+                            </p>
+                    )}
+                    {status && (
+                            <div class={`text-xs font-medium capitalize px-2 py-1 rounded border ${getStatusStyles(status)}`}>
+                                {status}
+                            </div>
+                    )}
+                </div>
+
+                <p class="text-xl font-bold py-2">{title}</p>
+                <p class="text-sm mb-4">{description}</p>
+
+                {technologies.length > 0 && (
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {technologies.map((tech) => (
+                                    <span class={`text-xs font-medium capitalize px-2 py-1 rounded border ${getTagStyles(tech)}`}>
+                {tech}
+              </span>
+                            ))}
+                        </div>
+                )}
+
+                <div class="flex gap-2 mb-4 text-xs">
+                    {liveUrl && (
+                            <span class="flex items-center gap-1 text-blue-600 dark:text-blue-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15,3 21,3 21,9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              Live Demo
+            </span>
+                    )}
+                </div>
+
+                <p class="text-xs group-hover:underline mt-auto">view details →</p>
+            </div>
         </div>
-    </div>
-</article>
+    </a>
+</li>

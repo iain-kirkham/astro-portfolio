@@ -150,7 +150,7 @@ To help me learn Terraform best practices, I used [Complete Terraform Course - F
 I reused resources from my previous challenge, using terraform import, which brings existing AWS infrastructure under Terraform management. Before importing, I built a Terraform configuration using the [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 and split it into a module for the backend and frontend for better structure.
 
-Then to import I identified existing AWS resources and imported them using the terraform import command, for example:
+Then, to import I, identified existing AWS resources and imported them using the terraform import command, for example:
 ```terraform
 terraform import aws_s3_bucket.website bucket-name
 ```
