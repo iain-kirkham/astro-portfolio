@@ -15,7 +15,7 @@ import { VisitorCount } from "@components/VisitorCount.tsx";
     Thanks for being visitor: <span class="inline-block"><VisitorCount client:load />. </span> </p>
   <ul class="py-2">
     {
-      sortedPosts.map((post: any) => (
+      sortedPosts.map((post) => (
           <BlogPost
               url={`/blog/${post.id}/`}
               title={post.data.title}

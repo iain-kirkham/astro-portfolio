@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 
-export const dateOptions = {
+export const dateOptions: Intl.DateTimeFormatOptions = {
 	weekday: "short",
 	year: "numeric",
 	month: "long",
@@ -16,7 +16,7 @@ export const socials = {
 
 export const SITE = {
 	title: " | iainkirkham.dev",
-	description: "Welcome to my new website",
+	description: "Software engineer writing about AWS, Spring Boot, Rust, and cloud adventures.",
 };
 
 export const links: { href: string; text: string }[] = [
@@ -33,13 +33,13 @@ interface Post {
 }
 
 export function sortByDateDesc(posts: Post[]) {
-	return posts.sort(
+	return posts.toSorted(
 		(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 	);
 }
 
 export function sortProjectsByDate(projects: CollectionEntry<"projects">[]) {
-	return projects.sort((a, b) => {
+	return projects.toSorted((a, b) => {
 		if (a.data.publishDate && b.data.publishDate) {
 			return b.data.publishDate.getTime() - a.data.publishDate.getTime();
 		}
@@ -49,6 +49,19 @@ export function sortProjectsByDate(projects: CollectionEntry<"projects">[]) {
 		return (a.data.title ?? "").localeCompare(b.data.title ?? "");
 	});
 }
+
+export const getStatusStyles = (status: string): string => {
+	switch (status?.toLowerCase()) {
+		case "completed":
+			return "bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-200 dark:border-green-700";
+		case "in progress":
+			return "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:border-blue-700";
+		case "on hold":
+			return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-200 dark:border-yellow-700";
+		default:
+			return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600";
+	}
+};
 
 export const getTagStyles = (tag: string): string => {
 	const normalizedTag = tag.toLowerCase();

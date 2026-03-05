@@ -24,7 +24,7 @@ const sortedPosts = sortByDateDesc(allPosts);
     <h2 class="text-2xl font-semibold mb-6">Latest Blog Posts</h2>
     <ul class="space-y-2">
       {
-        sortedPosts.map((post: any) => (
+        sortedPosts.map((post) => (
             <li>
               <BlogPost
                   url={`/blog/${post.id}/`}

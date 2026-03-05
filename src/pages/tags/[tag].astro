@@ -29,7 +29,7 @@ const sortedPosts = sortByDateDesc(posts);
   <p class="text-center text-2xl font-bold py-4">Posts with #{tag}</p>
   <ul>
     {
-      sortedPosts.map((post: any) => (
+      sortedPosts.map((post) => (
         <BlogPost
           url={"/blog/" + post.id}
           title={post.data.title}
