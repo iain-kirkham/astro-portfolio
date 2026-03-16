@@ -30,9 +30,6 @@ export default defineConfig({
 			},
 		},
 	},
-	prefetch: {
-		prefetchAll: true,
-	},
 	site: "https://test.iainkirkham.dev",
 	base: "/",
 	integrations: [
