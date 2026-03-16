@@ -12,18 +12,18 @@
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.6",
-		"@astrojs/markdown-remark": "^6.3.10",
-		"@astrojs/mdx": "^4.3.13",
+		"@astrojs/check": "^0.9.7",
+		"@astrojs/markdown-remark": "^6.3.11",
+		"@astrojs/mdx": "^4.3.14",
 		"@astrojs/react": "^4.4.2",
-		"@astrojs/rss": "^4.0.15",
-		"@astrojs/tailwind": "^5.1.5",
-		"@astrojs/ts-plugin": "^1.10.6",
-		"@playform/compress": "^0.2.1",
-		"@playform/inline": "^0.1.2",
+		"@astrojs/rss": "^4.0.17",
+		"@astrojs/tailwind": "^6.0.2",
+		"@astrojs/ts-plugin": "^1.10.7",
+		"@playform/compress": "^0.2.2",
+		"@playform/inline": "^0.1.4",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"astro": "^5.18.0",
+		"astro": "^6.0.4",
 		"astro-expressive-code": "^0.41.7",
 		"fontaine": "^0.8.0",
 		"mdast-util-to-string": "^4.0.0",
@@ -42,6 +42,6 @@
 		"@biomejs/biome": "2.4.5",
 		"@playwright/test": "^1.58.2",
 		"@tailwindcss/typography": "^0.5.19",
-		"@types/node": "^25.3.3"
+		"@types/node": "^25.5.0"
 	}
 }
