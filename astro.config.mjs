@@ -32,6 +32,9 @@ export default defineConfig({
 	},
 	site: "https://test.iainkirkham.dev",
 	base: "/",
+	experimental: {
+		rustCompiler: true,
+	},
 	integrations: [
 		tailwind({
 			applyBaseStyles: false,

@@ -1,6 +1,8 @@
 // Import utilities from `astro:content`
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+
 // Define a `loader` and `schema` for each collection
 const blog = defineCollection({
 	loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/blog" }),
@@ -26,8 +28,8 @@ const projects = defineCollection({
 		description: z.string(),
 		publishDate: z.date().optional(),
 		image: z.string().optional(),
-		liveUrl: z.string().url().optional(),
-		githubUrl: z.string().url().optional(),
+		liveUrl: z.url().optional(),
+		githubUrl: z.url().optional(),
 		technologies: z.array(z.string()).optional(),
 		status: z.enum(["Completed", "In Progress", "On Hold"]).optional(),
 	}),
