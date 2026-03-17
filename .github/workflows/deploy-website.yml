@@ -38,7 +38,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
       - name: Install playwright (for mermaid.js)
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install chromium --with-deps
       - name: Build website
         run: pnpm build
