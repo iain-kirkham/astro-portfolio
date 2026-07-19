@@ -1,7 +1,4 @@
-// astro.config.mjs
 import mdx from "@astrojs/mdx";
-import playformCompress from "@playform/compress";
-import playformInline from "@playform/inline";
 import expressiveCode from "astro-expressive-code";
 import {defineConfig} from "astro/config";
 import {FontaineTransform} from "fontaine";

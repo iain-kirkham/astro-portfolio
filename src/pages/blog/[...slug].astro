@@ -3,6 +3,8 @@ import { getCollection, render } from "astro:content";
 import Prose from "@components/Prose.astro";
 import MarkdownPostLayout from "@layouts/MarkdownPostLayout.astro";
 
+export const prerender = true;
+
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
 	return posts.map((post) => ({
@@ -16,8 +18,8 @@ const { Content, remarkPluginFrontmatter } = await render(post);
 ---
 
 <MarkdownPostLayout
-  frontmatter={post.data}
-  minutesRead={remarkPluginFrontmatter.minutesRead}
+    frontmatter={post.data}
+    minutesRead={remarkPluginFrontmatter.readingTime}
 >
   <Prose>
     <Content />
