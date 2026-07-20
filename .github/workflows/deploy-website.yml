@@ -1,8 +1,8 @@
-name: Deploy Website
+# Deprecated as AWS is no longer used the website is now hosted on Cloudflare Pages. This workflow is kept for reference and can be removed in the future.
 
-on:
-  push:
-    branches: [ main, master ]
+name: Deprecated - AWS Deploy Website
+
+on: workflow_dispatch
 
 jobs:
   deploy:
