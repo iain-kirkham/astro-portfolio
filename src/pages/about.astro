@@ -1,11 +1,13 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+
 const pageTitle = "About me";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+  <section class="py-12">
   <h1>{pageTitle}</h1>
-  <div class="prose max-w-none">
+  <div class="prose dark:prose-invert max-w-[68ch]">
     <p>
       I'm a software developer with a desire to continuously learn about technology from building distributed systems and cloud infrastructure to embedded systems.
       My journey in technology began at SGS College, where I achieved Distinction* Distinction* Distinction in IT,
@@ -42,4 +44,5 @@ const pageTitle = "About me";
       My current focus lies in expanding my expertise in cloud computing, particularly exploring Java Spring, and cloud architectures. I'm passionate about learning new technologies and applying my new knowledge to build better, efficient, and scalable solutions.
     </p>
   </div>
+  </section>
 </BaseLayout>

@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "@layouts/BaseLayout.astro";
-import ProjectCard from "@components/ProjectCard.astro";
 import { getCollection } from "astro:content";
+import ProjectCard from "@components/ProjectCard.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
 import { sortProjectsByDate } from "src/data/utils";
 
 const allProjects = await getCollection("projects");
@@ -11,31 +11,29 @@ const pageTitle = "Projects";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <main class="container mx-auto px-4 py-12">
-        <h1 class="text-4xl font-bold mb-8">My Projects</h1>
+  <section class="py-12">
+    <h1>My Projects</h1>
 
-        {sortedProjects.length === 0 ? (
-                <p class="text-center text-gray-600 dark:text-gray-400">
-                    No projects found yet. Please check back later.
-                </p>
-        ) : (
-                <section>
-                    <ul class="list-none">
-                        {sortedProjects.map((project) => (
-                                <ProjectCard
-                                        title={project.data.title}
-                                        description={project.data.description}
-                                        image={project.data.image}
-                                        technologies={project.data.technologies}
-                                        liveUrl={project.data.liveUrl}
-                                        githubUrl={project.data.githubUrl}
-                                        id={project.id}
-                                        status={project.data.status}
-                                        publishDate={project.data.publishDate}
-                                />
-                        ))}
-                    </ul>
-                </section>
-        )}
-    </main>
+    {
+      sortedProjects.length === 0 ? (
+        <p class="text-muted">No projects found yet. Please check back later.</p>
+      ) : (
+        <ul class="grid gap-4 sm:grid-cols-2 mt-6">
+          {sortedProjects.map((project) => (
+            <ProjectCard
+              title={project.data.title}
+              description={project.data.description}
+              image={project.data.image}
+              technologies={project.data.technologies}
+              liveUrl={project.data.liveUrl}
+              githubUrl={project.data.githubUrl}
+              id={project.id}
+              status={project.data.status}
+              publishDate={project.data.publishDate}
+            />
+          ))}
+        </ul>
+      )
+    }
+  </section>
 </BaseLayout>

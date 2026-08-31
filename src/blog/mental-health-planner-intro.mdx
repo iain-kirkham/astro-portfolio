@@ -6,6 +6,8 @@ author: "Iain Kirkham"
 tags: ["learning in public", "typescript", "java", "nextjs"]
 ---
 
+import Mermaid from "@components/Mermaid.astro";
+
 
 ## Motivation
 
@@ -64,8 +66,7 @@ key workflows, and the database schema using Entity Relationship Diagrams (ERDs)
 
 This Entity Relationship Diagram (ERD) outlines the tables in my PostgreSQL database and their relationships, providing a clear overview of the application's data model.
 
-```mermaid
-erDiagram
+<Mermaid chart={`erDiagram
     users ||--o{ pomodoro_sessions : "has"
     pomodoro_sessions {
         UUID id
@@ -116,15 +117,14 @@ erDiagram
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
     }
-```
+`} />
 
 ### Pomodoro feature flow
 
 This flowchart shows the user's journey through the pomodoro feature, from starting the pomodoro session, setting the timer,
 to pausing and stopping the timer, and completing the feedback form for the session to be saved for later reference.
 
-```mermaid
-flowchart TD
+<Mermaid chart={`flowchart TD
     A[User Opens App] --> B[User Selects Pomodoro Feature];
     B --> C[User Sets Session Length];
     C --> D[User Clicks Start Pomodoro];
@@ -148,7 +148,7 @@ flowchart TD
     O -- Yes --> Q[Save Session Data Including Feedback];
     Q --> R[Reset Timer];
     R --> S[Return to Pomodoro];
-```
+`} />
 
 ### Mood tracker feature flow
 
@@ -156,8 +156,7 @@ This flowchart shows the user flow for the mood tracker; from selecting their mo
 they'll be able to add notes on what affected them that day, they will also be able to tag factors that affected their mood.
 These features will make it easier for the user to filter and interpret their mood data to find patterns and improve their quality of life.
 
-```mermaid
-flowchart TD
+<Mermaid chart={`flowchart TD
     A[User Opens App] --> B[User Navigates to Mood Tracker];
     B --> C[Display Mood Entry Form];
     C --> D[User Selects Mood Rating 1-5];
@@ -170,7 +169,7 @@ flowchart TD
     H -- Yes --> J[Display Mood Saved Confirmation];
     J --> K[Display Mood History / Trends];
     K --> L[Return to Dashboard];
-```
+`} />
 
 ### Planner and Task management feature flow
 
@@ -179,8 +178,7 @@ on their current calendar week, where they can view all of their tasks for that 
 each task has a title, description, data/time, and subtasks. The user will be able to tick off tasks and subtasks from the main task list,
 they will also be able to edit any task or delete it from the calendar directly.
 
-```mermaid
-flowchart TD
+<Mermaid chart={`flowchart TD
     A[User Opens App] --> B[User Navigates to Planner];
     B --> C[Display Task List];
 
@@ -222,7 +220,7 @@ flowchart TD
     AA --> M;
 
     L -- No --> C;
-```
+`} />
 
 ## The journey has only begun!
 

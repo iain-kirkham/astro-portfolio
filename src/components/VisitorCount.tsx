@@ -24,7 +24,7 @@ export function VisitorCount() {
 		})
 			.then((response) => response.json() as Promise<VisitorResponse>)
 			.then((data) => {
-				const visitors = Number.parseInt(data.visitors);
+				const visitors = Number.parseInt(data.visitors, 10);
 
 				if (!Number.isNaN(visitors)) {
 					setVisitorData(visitors);

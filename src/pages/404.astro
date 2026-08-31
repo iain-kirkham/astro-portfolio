@@ -1,21 +1,19 @@
 ---
-import "@styles/global.css";
-import { SITE } from "src/data/utils";
+import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Error 404 {SITE.title}</title>
-  </head>
-  <body class="text-center bg-gray-900 text-white max-w-full">
-    <div class="place-content-center">
-      <h1 class="text-6xl tracking-wide font-bold">Error 404</h1>
-      <p class="py-4 pb-6">Sorry, we couldn't find that page! <br/> Press the button below to go back home!</p>
-      <a href="/" class="py-2 px-4 bg-sky-500 rounded-lg hover:bg-sky-600 text-white">Home</a>
-    </div>
-  </body>
-</html>
+<BaseLayout pageTitle="Error 404">
+  <section class="py-24 text-center">
+    <p class="meta text-muted">Error 404</p>
+    <h1 class="text-5xl font-black tracking-tight">Page not found</h1>
+    <p class="text-muted mt-4">
+      Sorry, we couldn&rsquo;t find that page!
+    </p>
+    <a
+      href="/"
+      class="meta inline-block mt-8 px-4 py-2 rounded-lg bg-accent text-accent-fg no-underline hover:brightness-110 transition"
+    >
+      Back home
+    </a>
+  </section>
+</BaseLayout>

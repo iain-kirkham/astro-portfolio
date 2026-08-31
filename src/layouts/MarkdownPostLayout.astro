@@ -1,54 +1,61 @@
 ---
+import type { Heading } from "@components/TableOfContents.astro";
+import TableOfContents from "@components/TableOfContents.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-const { frontmatter, minutesRead } = Astro.props;
 import { dateOptions, getTagStyles } from "src/data/utils";
+
+interface Props {
+	frontmatter: {
+		title: string;
+		description: string;
+		pubDate: Date;
+		tags: string[];
+	};
+	minutesRead: string;
+	headings: Heading[];
+}
+
+const { frontmatter, minutesRead, headings } = Astro.props;
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
-  <h1 class="text-center">{frontmatter.title}</h1>
-  <div class="flex justify-between items-center text-sm">
-    <p class="flex items-center gap-2">
-      <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="16"
-          width="16"
-          viewBox="0 0 448 512"
-          class="w-4 h-4 dark:fill-white"
-      >
-        <!--! Font Awesome Free 6.7.2 by @fontawesome -->
-        <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256z" />
-      </svg>
-      {frontmatter.pubDate.toLocaleDateString("en-GB", dateOptions)}
-    </p>
-    <p class="flex items-center gap-2">
-      <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="16"
-          width="16"
-          viewBox="0 0 512 512"
-          class="w-4 h-4 dark:fill-white"
-      >
-        <!--! Font Awesome Free 6.7.2 by @fontawesome -->
-        <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
-      </svg>
-      {minutesRead}
-    </p>
-  </div>
+<BaseLayout pageTitle={frontmatter.title} width="wide">
+  <article class="py-8">
+    <header class="mb-10">
+      <h1 class="text-4xl font-black tracking-tight text-balance">
+        {frontmatter.title}
+      </h1>
 
-  <p class="py-2"><em>{frontmatter.description}</em></p>
+      <p class="meta mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-muted">
+        <time datetime={frontmatter.pubDate.toISOString()}>
+          {frontmatter.pubDate.toLocaleDateString("en-GB", dateOptions)}
+        </time>
+        <span aria-hidden="true">&middot;</span>
+        <span>{minutesRead}</span>
+      </p>
 
-  <div class="flex flex-wrap gap-2 pb-6">
-    {
-      frontmatter.tags.map((tag: string) => (
-          <div>
-            <p class={`text-xs font-medium capitalize px-2 py-1 rounded border transition-colors duration-200 hover:brightness-105 dark:hover:brightness-125 ${getTagStyles(tag)}`}>
-              <a href={`/tags/${tag}`} class="no-underline">
-                #{tag}
-              </a>
-            </p>
-          </div>
-      ))
-    }
-  </div>
-  <slot />
+      <p class="mt-4 text-lg text-muted">{frontmatter.description}</p>
+
+      <div class="flex flex-wrap gap-2 mt-5">
+        {
+          frontmatter.tags.map((tag: string) => (
+            <a href={`/tags/${tag}`} class={`no-underline ${getTagStyles(tag)}`}>
+              #{tag}
+            </a>
+          ))
+        }
+      </div>
+    </header>
+
+    <TableOfContents headings={headings} variant="mobile" />
+
+    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12 lg:items-start">
+      <div class="min-w-0 max-w-[68ch]">
+        <slot />
+      </div>
+
+      <TableOfContents headings={headings} variant="desktop" />
+    </div>
+
+    <slot name="footer" />
+  </article>
 </BaseLayout>

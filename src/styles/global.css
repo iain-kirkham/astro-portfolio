@@ -1,3 +1,52 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   Design tokens
+
+   Raw values live on :root / .dark so a single class swap re-themes
+   the whole site. `@theme inline` makes the generated utilities
+   reference the vars rather than copying their values, which is what
+   makes that swap work.
+   --------------------------------------------------------------- */
+
+@theme inline {
+	--font-sans: "NotoSans", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrainsMono", ui-monospace, SFMono-Regular, Menlo, monospace;
+	/* Display face for h2-h6 and metadata. Point at --font-sans to undo
+	   the monospace heading treatment in one line. */
+	--font-display: var(--font-mono);
+
+	--color-surface: var(--c-surface);
+	--color-surface-2: var(--c-surface-2);
+	--color-border: var(--c-border);
+	--color-fg: var(--c-fg);
+	--color-muted: var(--c-muted);
+	--color-accent: var(--c-accent);
+	--color-accent-fg: var(--c-accent-fg);
+}
+
+:root {
+	--c-surface: #ffffff;
+	--c-surface-2: #f6f7f9;
+	--c-border: #e4e7ec;
+	--c-fg: #14161a;
+	--c-muted: #5b6472;
+	--c-accent: #0284c7;
+	--c-accent-fg: #ffffff;
+}
+
+.dark {
+	--c-surface: #0b0d10;
+	--c-surface-2: #14171c;
+	--c-border: #232830;
+	--c-fg: #e8eaee;
+	--c-muted: #9aa3b2;
+	--c-accent: #38bdf8;
+	--c-accent-fg: #0b0d10;
+}
+
 @font-face {
 	font-family: "NotoSans";
 	src: url("/fonts/NotoSans-Reg.woff2") format("woff2");
@@ -14,65 +63,161 @@
 	font-display: swap;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@font-face {
+	font-family: "JetBrainsMono";
+	src: url("/fonts/JetBrainsMono-Variable.woff2") format("woff2-variations");
+	font-weight: 100 800;
+	font-style: normal;
+	font-display: swap;
+}
 
 @layer base {
 	html {
-		@apply text-black bg-white dark:bg-gray-950 dark:text-white font-sans scroll-smooth;
+		@apply bg-surface text-fg font-sans scroll-smooth;
 	}
 
 	body {
-		@apply flex flex-col min-h-screen max-w-4xl mx-auto px-2 leading-relaxed;
+		@apply flex flex-col min-h-screen leading-relaxed;
 	}
 
 	h1 {
-		@apply my-4 text-4xl font-black;
+		@apply my-4 text-4xl font-black tracking-tight;
 	}
 
-	.prose h1,
-	.prose h2,
-	.prose h3,
-	.prose p,
-	.prose strong,
-	.prose code,
-	.prose ul {
-		@apply dark:text-white;
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--font-display);
+		@apply tracking-tight;
 	}
 
-	.prose a {
-		@apply no-underline transition-all text-sky-500 dark:text-sky-400;
+	/* Anchor jumps must clear the sticky header. */
+	:target,
+	h1[id],
+	h2[id],
+	h3[id],
+	h4[id],
+	h5[id],
+	h6[id] {
+		scroll-margin-top: 6rem;
 	}
 
-	.prose a:hover {
-		@apply underline text-sky-600 decoration-sky-600 decoration-2 dark:text-sky-500 dark:decoration-sky-500;
+	::selection {
+		background-color: var(--c-accent);
+		color: var(--c-accent-fg);
 	}
 
-	.prose .anchor {
-		@apply absolute invisible;
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-accent;
+	}
+}
 
-		margin-left: -1em;
-		padding-right: 0.2em;
-		width: 80%;
-		max-width: 700px;
-		cursor: pointer;
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
 	}
 
-	.anchor:hover {
-		@apply visible no-underline;
+	/* biome-ignore-start lint/complexity/noImportantStyles: a reduced-motion
+	   override has to beat whatever specificity declared the animation. */
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
+	/* biome-ignore-end lint/complexity/noImportantStyles: end of override */
+}
 
-	.prose .anchor:after {
-		@apply text-gray-400 dark:text-gray-100;
-		content: "#";
-	}
+/* Mono metadata treatment used across cards and article headers.
+   Deliberately carries no colour: this rule is unlayered, so a colour here
+   would beat any `text-*` utility set alongside it. */
+.meta {
+	font-family: var(--font-display);
+	@apply text-xs uppercase tracking-widest;
+}
 
-	.prose *:hover > .anchor {
-		@apply visible no-underline;
-	}
+/* Prose overrides live outside @layer so they win over @tailwindcss/typography */
+.prose {
+	--tw-prose-body: var(--c-fg);
+	--tw-prose-headings: var(--c-fg);
+	--tw-prose-bold: var(--c-fg);
+	--tw-prose-quotes: var(--c-fg);
+	--tw-prose-code: var(--c-fg);
+	--tw-prose-counters: var(--c-muted);
+	--tw-prose-bullets: var(--c-border);
+	--tw-prose-hr: var(--c-border);
+	--tw-prose-quote-borders: var(--c-border);
+	--tw-prose-th-borders: var(--c-border);
+	--tw-prose-td-borders: var(--c-border);
+	--tw-prose-captions: var(--c-muted);
+	--tw-prose-lead: var(--c-muted);
+}
 
-	.dark img.w-6.h-6 {
-		fill: white; /* Set fill color to white in dark mode */
-	}
+.prose :is(h2, h3, h4, h5, h6) {
+	font-family: var(--font-display);
+	letter-spacing: -0.02em;
+}
+
+.prose a:not(.anchor) {
+	@apply no-underline transition-all text-accent;
+}
+
+.prose a:not(.anchor):hover {
+	@apply underline decoration-2;
+
+	text-decoration-color: var(--c-accent);
+}
+
+.prose a.external::after {
+	content: "";
+	display: inline-block;
+	width: 0.7em;
+	height: 0.7em;
+	margin-left: 0.2em;
+	background-color: currentColor;
+	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z'/%3E%3Cpath d='M5 5h6v2H7v10h10v-4h2v6H5V5z'/%3E%3C/svg%3E");
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z'/%3E%3Cpath d='M5 5h6v2H7v10h10v-4h2v6H5V5z'/%3E%3C/svg%3E");
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+}
+
+.prose blockquote {
+	@apply not-italic;
+}
+
+.prose :not(pre) > code {
+	@apply rounded bg-surface-2 border border-border px-1 py-0.5 text-[0.9em] font-normal;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+	content: "";
+}
+
+.prose .anchor {
+	@apply absolute invisible;
+
+	margin-left: -1em;
+	padding-right: 0.2em;
+	width: 80%;
+	max-width: 700px;
+	cursor: pointer;
+}
+
+.anchor:hover {
+	@apply visible no-underline;
+}
+
+.prose .anchor::after {
+	content: "#";
+	color: var(--c-muted);
+}
+
+.prose *:hover > .anchor {
+	@apply visible no-underline;
 }

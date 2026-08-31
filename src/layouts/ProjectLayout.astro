@@ -1,82 +1,85 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { dateOptions, getStatusStyles, getTagStyles } from "src/data/utils";
+
 const { frontmatter } = Astro.props;
-import { dateOptions, getTagStyles, getStatusStyles } from "src/data/utils";
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-    <h1 class="text-center">{frontmatter.title}</h1>
+  <article class="py-8">
+    <header class="mb-10">
+      <h1 class="text-4xl font-black tracking-tight text-balance">
+        {frontmatter.title}
+      </h1>
 
-    <div class="flex justify-between items-center text-sm mb-4">
-        {frontmatter.publishDate && (
-                <p class="flex items-center gap-2">
-                    <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="16"
-                            width="16"
-                            viewBox="0 0 448 512"
-                            class="w-4 h-4 dark:fill-white"
-                    >
-                        <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256z" />
-                    </svg>
-                    {frontmatter.publishDate.toLocaleDateString("en-GB", dateOptions)}
-                </p>
-        )}
+      <div class="flex flex-wrap items-center gap-3 mt-3">
+        {
+          frontmatter.publishDate && (
+            <p class="meta text-muted">
+              <time datetime={frontmatter.publishDate.toISOString()}>
+                {frontmatter.publishDate.toLocaleDateString("en-GB", dateOptions)}
+              </time>
+            </p>
+          )
+        }
+        {
+          frontmatter.status && (
+            <span class={getStatusStyles(frontmatter.status)}>
+              {frontmatter.status}
+            </span>
+          )
+        }
+      </div>
 
-        {frontmatter.status && (
-                <div class={`text-xs font-medium capitalize px-2 py-1 rounded border ${getStatusStyles(frontmatter.status)}`}>
-                    {frontmatter.status}
-                </div>
-        )}
-    </div>
+      <p class="mt-4 text-lg text-muted">{frontmatter.description}</p>
 
-    <p class="py-2"><em>{frontmatter.description}</em></p>
+      {
+        (frontmatter.liveUrl || frontmatter.githubUrl) && (
+          <div class="flex flex-wrap gap-3 mt-6">
+            {frontmatter.liveUrl && (
+              <a
+                href={frontmatter.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="meta flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-accent-fg no-underline hover:brightness-110 transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15,3 21,3 21,9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live demo
+              </a>
+            )}
 
-    {/* Project Links */}
-    {(frontmatter.liveUrl || frontmatter.githubUrl) && (
-            <div class="flex gap-4 mb-4">
-                {frontmatter.liveUrl && (
-                        <a
-                                href={frontmatter.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200 text-sm"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                <polyline points="15,3 21,3 21,9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
-                            Live Demo
-                        </a>
-                )}
+            {frontmatter.githubUrl && (
+              <a
+                href={frontmatter.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="meta flex items-center gap-2 px-3 py-2 rounded-lg border border-border text-fg no-underline hover:border-accent hover:text-accent transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+                GitHub
+              </a>
+            )}
+          </div>
+        )
+      }
 
-                {frontmatter.githubUrl && (
-                        <a
-                                href={frontmatter.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex items-center gap-2 px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition-colors duration-200 text-sm"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </svg>
-                            GitHub
-                        </a>
-                )}
-            </div>
-    )}
-
-    {/* Technologies */}
-    {frontmatter.technologies && frontmatter.technologies.length > 0 && (
-            <div class="flex flex-wrap gap-2 pb-6">
-                {frontmatter.technologies.map((tech: string) => (
-                        <div class={`text-xs font-medium capitalize px-2 py-1 rounded border ${getTagStyles(tech)}`}>
-                            {tech}
-                        </div>
-                ))}
-            </div>
-    )}
+      {
+        frontmatter.technologies && frontmatter.technologies.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-5">
+            {frontmatter.technologies.map((tech: string) => (
+              <span class={getTagStyles(tech)}>{tech}</span>
+            ))}
+          </div>
+        )
+      }
+    </header>
 
     <slot />
+  </article>
 </BaseLayout>

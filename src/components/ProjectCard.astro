@@ -1,4 +1,7 @@
 ---
+import Card from "@components/Card.astro";
+import { dateOptions, getStatusStyles, getTagStyles } from "src/data/utils";
+
 interface Props {
 	title: string;
 	description: string;
@@ -14,68 +17,72 @@ interface Props {
 const {
 	title,
 	description,
-	image,
 	technologies = [],
 	liveUrl,
-	githubUrl,
 	id,
 	status,
 	publishDate,
 } = Astro.props;
-
-import { dateOptions, getTagStyles, getStatusStyles } from "src/data/utils";
 ---
 
-<li class="py-2">
-    <a href={`/projects/${id}`}>
-        <div
-                class="group rounded-2xl bg-gray-200/50 from-blue-700 via-sky-400 to-sky-800 p-[1px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] hover:bg-gradient-to-r dark:bg-gray-800"
+<Card href={`/projects/${id}`}>
+  <div class="flex justify-between items-start gap-3">
+    {
+      publishDate && (
+        <p class="meta text-muted">
+          <time datetime={publishDate.toISOString()}>
+            {publishDate.toLocaleDateString("en-GB", dateOptions)}
+          </time>
+        </p>
+      )
+    }
+    {
+      status && (
+        <span class={getStatusStyles(status)}>
+          {status}
+        </span>
+      )
+    }
+  </div>
+
+  <h3 class="font-sans text-lg font-bold mt-2 text-fg group-hover:text-accent transition-colors">
+    {title}
+  </h3>
+  <p class="text-sm text-muted mt-2 mb-4">{description}</p>
+
+  {
+    technologies.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-4">
+        {technologies.map((tech) => (
+          <span class={getTagStyles(tech)}>{tech}</span>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    liveUrl && (
+      <p class="meta flex items-center gap-1.5 text-muted">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
         >
-            <div
-                    class="flex h-full w-full flex-col rounded-[1rem] bg-gray-100 p-4 text-gray-900 opacity-85 dark:bg-gray-800 dark:text-white"
-            >
-                <div class="flex justify-between items-start mb-2">
-                    {publishDate && (
-                            <p class="text-xs -mt-2">
-                                {publishDate.toLocaleDateString("en-GB", dateOptions)}
-                            </p>
-                    )}
-                    {status && (
-                            <div class={`text-xs font-medium capitalize px-2 py-1 rounded border ${getStatusStyles(status)}`}>
-                                {status}
-                            </div>
-                    )}
-                </div>
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15,3 21,3 21,9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+        Live demo
+      </p>
+    )
+  }
 
-                <p class="text-xl font-bold py-2">{title}</p>
-                <p class="text-sm mb-4">{description}</p>
-
-                {technologies.length > 0 && (
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            {technologies.map((tech) => (
-                                    <span class={`text-xs font-medium capitalize px-2 py-1 rounded border ${getTagStyles(tech)}`}>
-                {tech}
-              </span>
-                            ))}
-                        </div>
-                )}
-
-                <div class="flex gap-2 mb-4 text-xs">
-                    {liveUrl && (
-                            <span class="flex items-center gap-1 text-blue-600 dark:text-blue-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15,3 21,3 21,9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              Live Demo
-            </span>
-                    )}
-                </div>
-
-                <p class="text-xs group-hover:underline mt-auto">view details →</p>
-            </div>
-        </div>
-    </a>
-</li>
+  <p class="meta mt-4 text-accent">view details &rarr;</p>
+</Card>

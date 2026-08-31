@@ -1,0 +1,74 @@
+---
+interface Props {
+	chart: string;
+}
+
+const { chart } = Astro.props;
+---
+
+<pre class="mermaid" data-mermaid set:text={chart}></pre>
+
+<script>
+	import mermaid from "mermaid";
+
+	const currentTheme = () =>
+		document.documentElement.classList.contains("dark") ? "dark" : "default";
+
+	async function renderMermaidDiagrams(force = false) {
+		const selector = force
+			? "pre[data-mermaid]"
+			: "pre[data-mermaid]:not([data-processed])";
+		const diagrams = document.querySelectorAll<HTMLPreElement>(selector);
+
+		if (diagrams.length === 0) return;
+
+		mermaid.initialize({ startOnLoad: false, theme: currentTheme() });
+
+		for (const diagram of diagrams) {
+			// The first render replaces textContent with SVG, so keep the source
+			// around to re-render from when the theme changes.
+			const definition =
+				diagram.dataset.definition ?? diagram.textContent ?? "";
+			diagram.dataset.definition = definition;
+
+			const id = `mermaid-${crypto.randomUUID()}`;
+
+			try {
+				const { svg } = await mermaid.render(id, definition);
+				diagram.innerHTML = svg;
+				diagram.dataset.processed = "true";
+			} catch (error) {
+				console.error("Unable to render Mermaid diagram", error);
+				diagram.dataset.processed = "error";
+			}
+		}
+	}
+
+	if (document.readyState === "loading") {
+		document.addEventListener(
+			"DOMContentLoaded",
+			() => renderMermaidDiagrams(),
+			{ once: true },
+		);
+	} else {
+		renderMermaidDiagrams();
+	}
+
+	// Diagrams bake their colours into the SVG, so a theme swap needs a redraw.
+	document.addEventListener("themechange", () => renderMermaidDiagrams(true));
+</script>
+
+<style>
+	.mermaid {
+		display: flex;
+		justify-content: center;
+		margin: 2rem 0;
+		overflow-x: auto;
+		padding: 1rem;
+	}
+
+	.mermaid :global(svg) {
+		height: auto;
+		max-width: 100%;
+	}
+</style>

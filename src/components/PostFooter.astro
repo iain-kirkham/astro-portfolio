@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	prev?: CollectionEntry<"blog">;
+	next?: CollectionEntry<"blog">;
+}
+
+const { prev, next } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav
+      class="mt-16 pt-8 border-t border-border grid gap-4 sm:grid-cols-2"
+      aria-label="Post navigation"
+    >
+      {next ? (
+        <a
+          href={`/blog/${next.id}/`}
+          class="group rounded-xl border border-border p-4 no-underline transition-colors hover:border-accent"
+        >
+          <span class="meta text-muted">&larr; Newer</span>
+          <span class="block mt-1 font-bold text-fg group-hover:text-accent transition-colors">
+            {next.data.title}
+          </span>
+        </a>
+      ) : (
+        <div class="hidden sm:block" />
+      )}
+
+      {prev && (
+        <a
+          href={`/blog/${prev.id}/`}
+          class="group rounded-xl border border-border p-4 no-underline transition-colors hover:border-accent sm:text-right"
+        >
+          <span class="meta text-muted">Older &rarr;</span>
+          <span class="block mt-1 font-bold text-fg group-hover:text-accent transition-colors">
+            {prev.data.title}
+          </span>
+        </a>
+      )}
+    </nav>
+  )
+}
