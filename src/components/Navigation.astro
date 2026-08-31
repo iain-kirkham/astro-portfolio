@@ -1,22 +1,75 @@
 ---
 import { links } from "src/data/utils";
 
-const currentPath = Astro.url.pathname;
+interface Props {
+	/** "bar" is the desktop header row; "panel" is the mobile overlay list. */
+	variant?: "bar" | "panel";
+}
+
+const { variant = "bar" } = Astro.props;
+
+// Compare on a trailing-slash-normalised form: `links` uses "/blog/" but the
+// dev server serves "/blog", which otherwise never matches.
+const withSlash = (path: string) => (path.endsWith("/") ? path : `${path}/`);
+
+const currentPath = withSlash(Astro.url.pathname);
+
+const isActive = (href: string) => {
+	const target = withSlash(href);
+	return target === "/"
+		? currentPath === "/"
+		: currentPath === target || currentPath.startsWith(target);
+};
 ---
 
-<div
-    class="nav-links flex flex-col items-center space-y-4 md:flex-row md:items-center md:space-y-0 md:space-x-4 py-2"
->
-  {links.map((link) => (
-      <a
-          href={link.href}
-          class={`py-1.5 px-3 text-sm rounded-xl transition-colors duration-300 ease-in-out ${
-              currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href))
-                  ? "bg-black dark:bg-white text-white dark:text-black"
-                  : "hover:bg-gray-200 hover:dark:bg-gray-700"
-          }`}
-      >
-        {link.text}
-      </a>
-  ))}
-</div>
+{
+	variant === "bar" ? (
+		<div class="flex items-center gap-1">
+			{links.map((link) => {
+				const active = isActive(link.href);
+				return (
+					<a
+						href={link.href}
+						aria-current={active ? "page" : undefined}
+						class={`font-display rounded-lg px-3 py-1.5 text-sm transition-colors duration-200 ${
+							active
+								? "bg-accent text-accent-fg"
+								: "text-muted hover:text-fg hover:bg-surface-2"
+						}`}
+					>
+						{link.text}
+					</a>
+				);
+			})}
+		</div>
+	) : (
+		<ul class="flex flex-col">
+			{links.map((link, i) => {
+				const active = isActive(link.href);
+				return (
+					<li class="menu-item border-b border-border" style={`--i:${i + 1}`}>
+						<a
+							href={link.href}
+							aria-current={active ? "page" : undefined}
+							class="group flex items-center gap-5 py-5 no-underline"
+						>
+							<span
+								class={`text-3xl font-bold tracking-tight transition-colors ${
+									active ? "text-accent" : "text-fg group-hover:text-accent"
+								}`}
+							>
+								{link.text}
+							</span>
+							<span
+								aria-hidden="true"
+								class="ml-auto font-mono text-lg text-accent opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"
+							>
+								&rarr;
+							</span>
+						</a>
+					</li>
+				);
+			})}
+		</ul>
+	)
+}

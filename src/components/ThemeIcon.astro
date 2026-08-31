@@ -4,101 +4,71 @@
 
 <button
   id="themeToggle"
-  aria-label="toggle theme"
-  class="p-2 rounded-xl hover:bg-gray-200 hover:dark:bg-gray-700 dark:stroke-white fill-none dark:fill-black transition-colors duration-300 ease-in-out"
+  aria-label="Toggle colour theme"
+  class="p-2 rounded-lg text-fg hover:bg-surface-2 transition-colors duration-200"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24"
-    width="24"
+    height="20"
+    width="20"
     viewBox="0 0 24 24"
-    stroke="black"
+    fill="none"
+    stroke="currentColor"
     class="block dark:hidden"
+    aria-hidden="true"
   >
     <path
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
       d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-    />
+    ></path>
   </svg>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24"
-    width="24"
+    height="20"
+    width="20"
     viewBox="0 0 24 24"
-    stroke="white"
     fill="none"
+    stroke="currentColor"
     class="hidden dark:block"
+    aria-hidden="true"
   >
     <path
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
       d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-    />
+    ></path>
   </svg>
 </button>
+
 <script is:inline>
-  const toggleTheme = (dark) => {
-    // Disable transitions temporarily
-    const css = document.createElement("style");
-    css.appendChild(
-        document.createTextNode(
-            `* {
-          -webkit-transition: none !important;
-          -moz-transition: none !important;
-          -o-transition: none !important;
-          -ms-transition: none !important;
-          transition: none !important;
-        }`
-        )
-    );
+  // Initial theme is resolved in <head> before first paint (BaseLayout).
+  // This only handles the toggle.
+  (() => {
+    const setTheme = (dark) => {
+      // Suppress transitions for the swap so colours change instantly.
+      const css = document.createElement("style");
+      css.appendChild(
+        document.createTextNode("*,*::before,*::after{transition:none!important}"),
+      );
+      document.head.appendChild(css);
 
-    document.head.appendChild(css);
+      document.documentElement.classList.toggle("dark", dark);
+      localStorage.setItem("theme", dark ? "dark" : "light");
 
-    // Toggle theme
-    const element = document.documentElement;
-    element.classList.toggle("dark", dark);
+      // Force a reflow so the suppression applies before it is removed.
+      void window.getComputedStyle(css).opacity;
+      document.head.removeChild(css);
 
-    // Force reflow to ensure styles are applied
-    const _ = window.getComputedStyle(css).opacity;
+      document.dispatchEvent(
+        new CustomEvent("themechange", { detail: { dark } }),
+      );
+    };
 
-    // Remove the temporary CSS rule
-    document.head.removeChild(css);
-
-    // Store the new theme in localStorage
-    localStorage.setItem("theme", dark ? "dark" : "light");
-  };
-
-  // Determine initial theme
-  const theme = (() => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme");
-    }
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return "dark";
-    }
-    return "light";
+    document.getElementById("themeToggle")?.addEventListener("click", () => {
+      setTheme(!document.documentElement.classList.contains("dark"));
+    });
   })();
-
-  // Set the initial theme
-  if (theme === "dark") {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-
-  // Save the theme to localStorage
-  localStorage.setItem("theme", theme);
-
-  // Add click event listener to toggle button
-  const handleToggleClick = () => {
-    const isDark = document.documentElement.classList.contains("dark");
-    toggleTheme(!isDark);
-  };
-
-  document
-      .getElementById("themeToggle")
-      .addEventListener("click", handleToggleClick);
 </script>

@@ -1,83 +1,220 @@
 ---
 import Navigation from "@components/Navigation.astro";
+import Social from "@components/Social.astro";
 import ThemeIcon from "@components/ThemeIcon.astro";
 ---
 
-<header class="px-2 py-4">
-  <nav class="flex justify-between items-center">
-    <a href="/" class="py-3 font-bold text-xl dark:text-gray-200 dark:hover:text-white fill-none text-gray-800 hover:text-black transition-colors duration-300 ease-in-out">
-      Iain Kirkham
-    </a>
+<header
+	class="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-md supports-[backdrop-filter]:bg-surface/70"
+>
+	<nav
+		class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center"
+		aria-label="Main"
+	>
+		<a
+			href="/"
+			class="font-display font-bold text-lg tracking-tight text-fg hover:text-accent transition-colors duration-200"
+		>
+			Iain Kirkham
+		</a>
 
-    <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center space-x-4">
-      <Navigation />
-    </div>
+		<!-- Desktop Navigation -->
+		<div class="hidden md:flex items-center space-x-4">
+			<Navigation />
+		</div>
 
-    <!-- Theme Icon and Mobile Menu Button -->
-    <div class="flex items-center md:space-x-0">
-      <div class="mr-2 md:mr-0">
-        <ThemeIcon />
-      </div>
+		<div class="flex items-center gap-1">
+			<ThemeIcon />
 
-      <button
-          id="menu-button"
-          aria-label="Open Menu"
-          class="block md:hidden fill-black p-2 rounded-xl hover:bg-zinc-200 hover:dark:bg-gray-700 dark:stroke-white dark:fill-black transition-colors duration-300 ease-in-out"
-      >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            width="24"
-            viewBox="0 0 448 512"
-            class="dark:fill-white"
-        >
-          <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Full-Screen Mobile Menu -->
-  <div
-      id="mobile-menu"
-      class="fixed inset-0 z-50 hidden bg-white dark:bg-gray-950 text-black dark:text-white flex-col items-center justify-center space-y-24"
-  >
-    <button
-        id="menu-close"
-        aria-label="Close Menu"
-        class="absolute top-5 right-4 p-2 rounded-xl fill-black hover:bg-zinc-200 hover:dark:bg-gray-700 dark:stroke-white dark:fill-black transition-colors duration-300 ease-in-out"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg"
-           height="24"
-           width="24"
-           viewBox="0 0 384 512"
-           class="dark:fill-white">
-        <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
-      </svg>
-    </button>
-
-    <!-- Mobile Navigation Links -->
-    <div>
-      <Navigation />
-    </div>
-  </div>
+			<button
+				id="menu-button"
+				aria-label="Open menu"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+				class="menu-toggle block md:hidden p-2 rounded-lg text-fg hover:bg-surface-2 transition-colors duration-200"
+			>
+				<!-- Three bars that fold into an X while the panel opens. -->
+				<span class="menu-icon" aria-hidden="true">
+					<span class="menu-bar"></span>
+					<span class="menu-bar"></span>
+					<span class="menu-bar"></span>
+				</span>
+			</button>
+		</div>
+	</nav>
 </header>
 
+<!--
+  Deliberately a sibling of <header>, not a child: the header sets
+  backdrop-filter, which makes it a containing block for fixed-position
+  descendants, so a panel nested inside it would size to the header instead
+  of the viewport.
+-->
+<div
+	id="mobile-menu"
+	class="mobile-menu fixed inset-0 z-40 md:hidden bg-surface opacity-0 pointer-events-none"
+	role="dialog"
+	aria-modal="true"
+	aria-label="Site menu"
+>
+	<div class="flex h-full flex-col max-w-6xl mx-auto px-4 pt-24 pb-10">
+		<p class="meta text-muted mb-2 menu-item" style="--i:0">Menu</p>
+
+		<Navigation variant="panel" />
+
+		<div class="mt-auto pt-10 flex justify-center menu-item" style="--i:5">
+			<Social />
+		</div>
+	</div>
+</div>
+
+<style is:global>
+	/* Hamburger -> X */
+	.menu-icon {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 4px;
+		width: 20px;
+		height: 20px;
+	}
+
+	.menu-bar {
+		display: block;
+		height: 2px;
+		width: 100%;
+		border-radius: 2px;
+		background-color: currentColor;
+		transition:
+			transform 0.3s ease,
+			opacity 0.2s ease;
+	}
+
+	.menu-toggle[aria-expanded="true"] .menu-bar:nth-child(1) {
+		transform: translateY(6px) rotate(45deg);
+	}
+
+	.menu-toggle[aria-expanded="true"] .menu-bar:nth-child(2) {
+		opacity: 0;
+	}
+
+	.menu-toggle[aria-expanded="true"] .menu-bar:nth-child(3) {
+		transform: translateY(-6px) rotate(-45deg);
+	}
+
+	/* Panel.
+	   `visibility` is switched with a zero-duration transition rather than
+	   being interpolated: opening flips it immediately (so the panel is
+	   focusable in the same frame), closing defers it until the fade ends. */
+	.mobile-menu {
+		visibility: hidden;
+		transition:
+			opacity 0.3s ease,
+			visibility 0s linear 0.3s;
+	}
+
+	.mobile-menu.is-open {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transition:
+			opacity 0.3s ease,
+			visibility 0s linear 0s;
+	}
+
+	/* Items rise in sequence once the panel is open. */
+	.mobile-menu .menu-item {
+		opacity: 0;
+		transform: translateY(14px);
+		transition:
+			opacity 0.4s ease,
+			transform 0.4s ease;
+		transition-delay: calc(var(--i, 0) * 55ms);
+	}
+
+	.mobile-menu.is-open .menu-item {
+		opacity: 1;
+		transform: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mobile-menu .menu-item {
+			transform: none;
+			transition-delay: 0ms;
+		}
+	}
+</style>
+
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const menuButton = document.getElementById("menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const menuClose = document.getElementById("menu-close");
+	const menuButton = document.getElementById("menu-button");
+	const mobileMenu = document.getElementById("mobile-menu");
 
-    if (menuButton && mobileMenu && menuClose) {
-      menuButton.addEventListener("click", () => {
-        mobileMenu.classList.remove("hidden");
-      });
+	const FOCUSABLE =
+		'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-      menuClose.addEventListener("click", () => {
-        mobileMenu.classList.add("hidden");
-      });
-    }
-  })
+	let isOpen = false;
+
+	// The toggle lives in the header, outside the panel, so it has to be part
+	// of the tab cycle or there is no keyboard route back to "close".
+	const focusables = () => [
+		...(menuButton ? [menuButton] : []),
+		...Array.from(mobileMenu?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []),
+	];
+
+	const setMenuOpen = (open: boolean) => {
+		isOpen = open;
+		mobileMenu?.classList.toggle("is-open", open);
+		menuButton?.setAttribute("aria-expanded", String(open));
+		menuButton?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+		// Keep the page behind the overlay from scrolling.
+		document.body.style.overflow = open ? "hidden" : "";
+
+		if (open) {
+			// focus() no-ops while the panel is still visibility:hidden, so force
+			// the style recalculation through before moving focus.
+			void mobileMenu?.offsetHeight;
+			mobileMenu?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
+		} else {
+			menuButton?.focus();
+		}
+	};
+
+	menuButton?.addEventListener("click", () => setMenuOpen(!isOpen));
+
+	// Close on navigation so the overlay never survives a same-page anchor.
+	mobileMenu?.querySelectorAll("a").forEach((link) => {
+		link.addEventListener("click", () => setMenuOpen(false));
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (!isOpen) return;
+
+		if (event.key === "Escape") {
+			setMenuOpen(false);
+			return;
+		}
+
+		if (event.key !== "Tab") return;
+
+		const items = focusables();
+		if (items.length === 0) return;
+
+		const first = items[0];
+		const last = items[items.length - 1];
+		const active = document.activeElement;
+
+		if (event.shiftKey && active === first) {
+			event.preventDefault();
+			last.focus();
+		} else if (!event.shiftKey && active === last) {
+			event.preventDefault();
+			first.focus();
+		}
+	});
+
+	// The panel is md:hidden; if the viewport grows past that while it is open,
+	// close it so body scroll is not left locked on desktop.
+	window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => {
+		if (e.matches && isOpen) setMenuOpen(false);
+	});
 </script>

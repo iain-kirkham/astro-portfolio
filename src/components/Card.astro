@@ -1,0 +1,18 @@
+---
+interface Props {
+	href: string;
+	class?: string;
+}
+
+const { href, class: className = "" } = Astro.props;
+---
+
+<li class={`list-none ${className}`}>
+  <a href={href} class="group block h-full no-underline">
+    <div
+      class="flex h-full flex-col rounded-xl border border-border bg-surface-2 p-5 transition-all duration-200 group-hover:border-accent group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-black/5"
+    >
+      <slot />
+    </div>
+  </a>
+</li>

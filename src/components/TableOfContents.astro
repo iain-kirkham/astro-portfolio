@@ -1,0 +1,183 @@
+---
+export interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
+
+interface Props {
+	headings: Heading[];
+	/**
+	 * "mobile" renders the collapsed <details> summary, "desktop" the sticky
+	 * rail. They are rendered at different points in the layout (above the
+	 * article vs. beside it), so they cannot be one element toggled by a
+	 * breakpoint.
+	 */
+	variant: "mobile" | "desktop";
+}
+
+const { headings, variant } = Astro.props;
+
+// h2/h3 only: h1 is the page title, h4+ makes the rail noisy.
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+
+// A two-entry list is not worth a rail.
+const show = items.length >= 2;
+---
+
+{
+  show && (
+    <nav
+      class:list={[
+        "toc",
+        `toc-${variant}`,
+        // The desktop rail is the grid item itself, so `sticky` resolves
+        // against the article grid and the rail travels with the scroll.
+        // A wrapper inside a height-fitted grid item has nowhere to move.
+        variant === "desktop" &&
+          "hidden lg:block lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto",
+      ]}
+      aria-label="Table of contents"
+    >
+      {variant === "mobile" && (
+      <details class="lg:hidden rounded-xl border border-border bg-surface-2 px-4 py-3 mb-8">
+        <summary class="meta cursor-pointer select-none marker:text-muted">
+          On this page
+        </summary>
+        <ol class="toc-list mt-3 space-y-1 border-l border-border">
+          {items.map((item) => (
+            <li>
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                class:list={[
+                  "toc-link block border-l-2 border-transparent py-1 font-mono text-xs text-muted transition-colors hover:text-fg",
+                  item.depth === 2 ? "pl-3" : "pl-6",
+                ]}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </details>
+      )}
+
+      {variant === "desktop" && (
+      <div>
+        <h2 class="meta mb-3 text-muted">
+          On this page
+        </h2>
+        <ol class="toc-list space-y-1 border-l border-border">
+          {items.map((item) => (
+            <li>
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                class:list={[
+                  "toc-link block border-l-2 border-transparent py-1 font-mono text-xs leading-snug text-muted transition-colors hover:text-fg",
+                  item.depth === 2 ? "pl-3" : "pl-6",
+                ]}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  /* Pull the active marker onto the list's own rule. */
+  .toc-list {
+    margin-left: 0;
+  }
+
+  .toc-link[aria-current="location"] {
+    color: var(--c-accent);
+    border-left-color: var(--c-accent);
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
+  );
+
+  if (links.length > 0) {
+    // A slug can appear twice (mobile <details> + desktop rail), so group
+    // links by slug and mark every copy.
+    const bySlug = new Map<string, HTMLAnchorElement[]>();
+    for (const link of links) {
+      const slug = link.dataset.tocLink;
+      if (!slug) continue;
+      const existing = bySlug.get(slug);
+      if (existing) existing.push(link);
+      else bySlug.set(slug, [link]);
+    }
+
+    const slugs = Array.from(bySlug.keys());
+    const headings = slugs
+      .map((slug) => document.getElementById(slug))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let activeSlug: string | null = null;
+
+    const setActive = (slug: string | null) => {
+      if (slug === activeSlug) return;
+
+      if (activeSlug) {
+        for (const link of bySlug.get(activeSlug) ?? []) {
+          link.removeAttribute("aria-current");
+        }
+      }
+
+      if (slug) {
+        for (const link of bySlug.get(slug) ?? []) {
+          link.setAttribute("aria-current", "location");
+        }
+      }
+
+      activeSlug = slug;
+    };
+
+    // Track which headings are on screen. When none are (a long section
+    // scrolled past its own heading), fall back to the last one above the
+    // viewport so the rail never goes blank.
+    const visible = new Set<string>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (entry.isIntersecting) visible.add(id);
+          else visible.delete(id);
+        }
+
+        if (visible.size > 0) {
+          // Topmost visible heading in document order.
+          const first = headings.find((h) => visible.has(h.id));
+          setActive(first?.id ?? null);
+          return;
+        }
+
+        const scrolledPast = headings.filter(
+          (h) => h.getBoundingClientRect().top < 0,
+        );
+        setActive(scrolledPast.at(-1)?.id ?? headings[0]?.id ?? null);
+      },
+      {
+        // Bias the band to the upper portion of the viewport so the active
+        // item advances as a heading reaches the top, not the middle.
+        rootMargin: "-80px 0px -66% 0px",
+        threshold: 0,
+      },
+    );
+
+    for (const heading of headings) observer.observe(heading);
+  }
+</script>

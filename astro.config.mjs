@@ -3,21 +3,24 @@ import expressiveCode from "astro-expressive-code";
 import {defineConfig} from "astro/config";
 import {FontaineTransform} from "fontaine";
 import tailwindcss from "@tailwindcss/vite";
-import {satteri, satteriHeadingIdsPlugin} from "@astrojs/markdown-satteri";
+import {satteri} from "@astrojs/markdown-satteri";
 import react from "@astrojs/react";
 import mermaid from "astro-mermaid";
 
 import {satteriReadingTime} from "./src/plugins/satteri-reading-time.mjs";
-import {anchorHeadingsPlugin} from "./src/plugins/satteri-anchor-headings.mjs";
+import {headingIdsPlugin} from "./src/plugins/satteri-heading-ids.mjs";
+import {externalLinksPlugin} from "./src/plugins/satteri-external-links.mjs";
 
 
 import cloudflare from "@astrojs/cloudflare";
 
 
+const SITE = "https://test.iainkirkham.dev";
+
 const satteriConfig = satteri({
     hastPlugins: [
-        satteriHeadingIdsPlugin(),
-        anchorHeadingsPlugin,
+        headingIdsPlugin,
+        externalLinksPlugin({siteHostname: new URL(SITE).hostname}),
     ],
     mdastPlugins: [
         satteriReadingTime,
@@ -42,15 +45,13 @@ export default defineConfig({
         },
     },
 
-    site: "https://test.iainkirkham.dev",
+    site: SITE,
     base: "/",
 
     integrations: [
         mermaid(),
-        expressiveCode({
-            themes: ["catppuccin-macchiato"],
-            ignoredLanguages: ["mermaid"]
-        }),
+        // Options live in ec.config.mjs; passing them here would override it.
+        expressiveCode(),
 
         mdx(),
         react(),

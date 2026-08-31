@@ -28,17 +28,21 @@ const sortedPosts = sortByDateDesc(posts);
 ---
 
 <BaseLayout pageTitle={tag}>
-  <p class="text-center text-2xl font-bold py-4">Posts with #{tag}</p>
-  <ul>
-    {
-      sortedPosts.map((post) => (
-        <BlogPost
-          url={"/blog/" + post.id}
-          title={post.data.title}
-          description={post.data.description}
-          date={post.data.pubDate}
-        />
-      ))
-    }
-  </ul>
+  <section class="py-12">
+    <p class="meta text-muted">Tagged</p>
+    <h1>#{tag}</h1>
+
+    <ul class="grid gap-4 sm:grid-cols-2 mt-6">
+      {
+        sortedPosts.map((post) => (
+          <BlogPost
+            url={`/blog/${post.id}/`}
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.pubDate}
+          />
+        ))
+      }
+    </ul>
+  </section>
 </BaseLayout>

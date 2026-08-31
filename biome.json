@@ -7,14 +7,20 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"includes": [
+			"**"
+		]
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"
 	},
-	"organizeImports": {
-		"enabled": true
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
 	},
 	"linter": {
 		"enabled": true,
@@ -29,15 +35,26 @@
 	},
 	"overrides": [
 		{
-			"include": ["*.astro"],
+			"includes": [
+				"**/*.astro"
+			],
 			"linter": {
 				"rules": {
 					"style": {
 						"useConst": "off",
 						"useImportType": "off"
+					},
+					"correctness": {
+						"noUnusedVariables": "off",
+						"noUnusedImports": "off"
 					}
 				}
 			}
 		}
-	]
+	],
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	}
 }

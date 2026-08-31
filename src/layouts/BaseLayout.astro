@@ -2,8 +2,16 @@
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import "@styles/global.css";
-const { pageTitle } = Astro.props;
 import { SITE } from "src/data/utils";
+
+interface Props {
+	pageTitle: string;
+	width?: "narrow" | "wide";
+}
+
+const { pageTitle, width = "narrow" } = Astro.props;
+
+const containerClass = width === "wide" ? "max-w-6xl" : "max-w-4xl";
 ---
 
 <html lang="en">
@@ -22,17 +30,39 @@ import { SITE } from "src/data/utils";
       crossorigin
     />
     <link
-        rel="preload"
-        href="/fonts/NotoSans-Bold.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
+      rel="preload"
+      href="/fonts/NotoSans-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/JetBrainsMono-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <title>{pageTitle}{SITE.title}</title>
+    {/* Runs before first paint so the page never flashes light. */}
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const theme =
+          stored ??
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("theme", theme);
+      })();
+    </script>
   </head>
   <body>
     <Header />
-    <slot />
+    <main class={`w-full ${containerClass} mx-auto px-4 flex-1`}>
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>
