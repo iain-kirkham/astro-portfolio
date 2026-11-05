@@ -8,7 +8,7 @@ const { frontmatter } = Astro.props;
 <BaseLayout pageTitle={frontmatter.title}>
   <article class="py-8">
     <header class="mb-10">
-      <h1 class="text-4xl font-black tracking-tight text-balance">
+      <h1 class="text-4xl font-extrabold tracking-tight text-balance">
         {frontmatter.title}
       </h1>
 
@@ -41,7 +41,7 @@ const { frontmatter } = Astro.props;
                 href={frontmatter.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="meta flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-accent-fg no-underline hover:brightness-110 transition"
+                class="meta flex items-center gap-2 px-3 py-2 rounded-sm bg-accent text-accent-fg no-underline hover:brightness-110 transition"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -57,7 +57,7 @@ const { frontmatter } = Astro.props;
                 href={frontmatter.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="meta flex items-center gap-2 px-3 py-2 rounded-lg border border-border text-fg no-underline hover:border-accent hover:text-accent transition"
+                class="meta flex items-center gap-2 px-3 py-2 rounded-sm border border-border text-fg no-underline hover:border-accent hover:text-accent transition"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />

@@ -22,29 +22,46 @@
 	--color-surface-2: var(--c-surface-2);
 	--color-border: var(--c-border);
 	--color-fg: var(--c-fg);
+	--color-heading: var(--c-heading);
 	--color-muted: var(--c-muted);
 	--color-accent: var(--c-accent);
 	--color-accent-fg: var(--c-accent-fg);
 }
 
+/* Accents are Catppuccin Latte (light) / Mocha (dark) — see
+   catppuccin.com/palette. Surfaces are a custom neutral slate rather than
+   Catppuccin's own (purple-tinted) base/mantle/crust, so the site doesn't
+   just read as "the preset theme". */
 :root {
-	--c-surface: #ffffff;
-	--c-surface-2: #f6f7f9;
-	--c-border: #e4e7ec;
-	--c-fg: #14161a;
-	--c-muted: #5b6472;
-	--c-accent: #0284c7;
-	--c-accent-fg: #ffffff;
+	--c-surface: #eff1f5;
+	--c-surface-2: #e6e9ef;
+	--c-border: #ccd0da;
+	--c-fg: #4c4f69;
+	--c-heading: var(--c-fg);
+	--c-muted: #6c6f85;
+	--c-accent: #1e66f5;
+	--c-accent-fg: #eff1f5;
+
+	--c-peach: #fe640b;
+	--c-sapphire: #209fb5;
+	--c-mauve: #8839ef;
+	--c-green: #40a02b;
 }
 
 .dark {
-	--c-surface: #0b0d10;
-	--c-surface-2: #14171c;
-	--c-border: #232830;
-	--c-fg: #e8eaee;
-	--c-muted: #9aa3b2;
-	--c-accent: #38bdf8;
-	--c-accent-fg: #0b0d10;
+	--c-surface: #12151e;
+	--c-surface-2: #181b24;
+	--c-border: #262a35;
+	--c-fg: #b8bfcc;
+	--c-heading: #f3f4f6;
+	--c-muted: #838b9c;
+	--c-accent: #89b4fa;
+	--c-accent-fg: #12151e;
+
+	--c-peach: #fab387;
+	--c-sapphire: #74c7ec;
+	--c-mauve: #cba6f7;
+	--c-green: #a6e3a1;
 }
 
 @font-face {
@@ -81,7 +98,9 @@
 	}
 
 	h1 {
-		@apply my-4 text-4xl font-black tracking-tight;
+		font-family: var(--font-display);
+		color: var(--c-heading);
+		@apply my-4 text-4xl font-extrabold tracking-tight;
 	}
 
 	h2,
@@ -90,6 +109,7 @@
 	h5,
 	h6 {
 		font-family: var(--font-display);
+		color: var(--c-heading);
 		@apply tracking-tight;
 	}
 
@@ -142,7 +162,7 @@
 /* Prose overrides live outside @layer so they win over @tailwindcss/typography */
 .prose {
 	--tw-prose-body: var(--c-fg);
-	--tw-prose-headings: var(--c-fg);
+	--tw-prose-headings: var(--c-heading);
 	--tw-prose-bold: var(--c-fg);
 	--tw-prose-quotes: var(--c-fg);
 	--tw-prose-code: var(--c-fg);

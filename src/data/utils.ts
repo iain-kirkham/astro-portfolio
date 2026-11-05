@@ -55,19 +55,21 @@ export function sortProjectsByDate(projects: CollectionEntry<"projects">[]) {
    bespoke colour, which is what let the old palette drift.
    ------------------------------------------------------------------ */
 
+/* Background and border stay neutral for every variant — only the label
+   colour carries the hue — so a row of tags reads as quiet metadata, not a
+   strip of coloured pills. */
 const CHIP_BASE =
-	"inline-block font-mono text-xs px-2 py-0.5 rounded-md border transition-colors";
+	"inline-block font-mono text-xs px-2 py-0.5 rounded-sm border border-border bg-surface-2 transition-colors";
 
+/* Hues are Catppuccin's own (Latte/Mocha), sourced from the --c-* vars in
+   global.css, so a chip is always drawn from the same palette as the rest
+   of the theme rather than a separate Tailwind color scale. */
 const CHIP_VARIANTS = {
-	accent:
-		"bg-sky-500/10 text-sky-700 border-sky-500/25 dark:text-sky-300 dark:border-sky-400/25",
-	violet:
-		"bg-violet-500/10 text-violet-700 border-violet-500/25 dark:text-violet-300 dark:border-violet-400/25",
-	emerald:
-		"bg-emerald-500/10 text-emerald-700 border-emerald-500/25 dark:text-emerald-300 dark:border-emerald-400/25",
-	amber:
-		"bg-amber-500/10 text-amber-700 border-amber-500/25 dark:text-amber-300 dark:border-amber-400/25",
-	neutral: "bg-surface-2 text-muted border-border",
+	sapphire: "text-[var(--c-sapphire)]",
+	mauve: "text-[var(--c-mauve)]",
+	green: "text-[var(--c-green)]",
+	peach: "text-[var(--c-peach)]",
+	neutral: "text-muted",
 } as const;
 
 type ChipVariant = keyof typeof CHIP_VARIANTS;
@@ -120,9 +122,9 @@ const chip = (variant: ChipVariant): string =>
 export const getTagStyles = (tag: string): string => {
 	const normalized = tag.toLowerCase().trim();
 
-	if (LANGUAGE_TAGS.has(normalized)) return chip("amber");
-	if (FRAMEWORK_TAGS.has(normalized)) return chip("accent");
-	if (TOPIC_TAGS.has(normalized)) return chip("violet");
+	if (LANGUAGE_TAGS.has(normalized)) return chip("peach");
+	if (FRAMEWORK_TAGS.has(normalized)) return chip("sapphire");
+	if (TOPIC_TAGS.has(normalized)) return chip("mauve");
 
 	return chip("neutral");
 };
@@ -130,11 +132,11 @@ export const getTagStyles = (tag: string): string => {
 export const getStatusStyles = (status: string): string => {
 	switch (status?.toLowerCase()) {
 		case "completed":
-			return chip("emerald");
+			return chip("green");
 		case "in progress":
-			return chip("accent");
+			return chip("sapphire");
 		case "on hold":
-			return chip("amber");
+			return chip("peach");
 		default:
 			return chip("neutral");
 	}

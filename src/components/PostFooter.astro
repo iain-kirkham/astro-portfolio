@@ -18,10 +18,10 @@ const { prev, next } = Astro.props;
       {next ? (
         <a
           href={`/blog/${next.id}/`}
-          class="group rounded-xl border border-border p-4 no-underline transition-colors hover:border-accent"
+          class="group rounded-sm border border-border p-4 no-underline transition-colors hover:border-accent"
         >
           <span class="meta text-muted">&larr; Newer</span>
-          <span class="block mt-1 font-bold text-fg group-hover:text-accent transition-colors">
+          <span class="block mt-1 font-bold text-heading group-hover:text-accent transition-colors">
             {next.data.title}
           </span>
         </a>
@@ -32,10 +32,10 @@ const { prev, next } = Astro.props;
       {prev && (
         <a
           href={`/blog/${prev.id}/`}
-          class="group rounded-xl border border-border p-4 no-underline transition-colors hover:border-accent sm:text-right"
+          class="group rounded-sm border border-border p-4 no-underline transition-colors hover:border-accent sm:text-right"
         >
           <span class="meta text-muted">Older &rarr;</span>
-          <span class="block mt-1 font-bold text-fg group-hover:text-accent transition-colors">
+          <span class="block mt-1 font-bold text-heading group-hover:text-accent transition-colors">
             {prev.data.title}
           </span>
         </a>

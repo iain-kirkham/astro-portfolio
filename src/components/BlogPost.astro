@@ -18,9 +18,11 @@ const { title, url, description, date } = Astro.props;
       {date.toLocaleDateString("en-GB", dateOptions)}
     </time>
   </p>
-  <h3 class="font-sans text-lg font-bold mt-2 text-fg group-hover:text-accent transition-colors">
+  <h3 class="font-sans text-lg font-bold mt-2 text-heading group-hover:text-accent transition-colors">
     {title}
   </h3>
   <p class="text-sm text-muted mt-2">{description}</p>
-  <p class="meta mt-4 text-accent">read more &rarr;</p>
+  <p class="meta mt-4 text-muted transition-colors group-hover:text-accent">
+    read more <span class="text-accent">&rarr;</span>
+  </p>
 </Card>

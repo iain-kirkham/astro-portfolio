@@ -6,43 +6,66 @@ const pageTitle = "About me";
 
 <BaseLayout pageTitle={pageTitle}>
   <section class="py-12">
-  <h1>{pageTitle}</h1>
-  <div class="prose dark:prose-invert max-w-[68ch]">
-    <p>
-      I'm a software developer with a desire to continuously learn about technology from building distributed systems and cloud infrastructure to embedded systems.
-      My journey in technology began at SGS College, where I achieved Distinction* Distinction* Distinction in IT,
-      leading to my Computer Science degree at Lancaster University. The university courses deepened my understanding of complex systems, with particular focus on distributed systems, embedded systems, and artificial intelligence.
-      Areas that continue to shape my interests in software development today.
-    </p>
+    <h1>{pageTitle}</h1>
+    <div class="prose dark:prose-invert max-w-[68ch]">
+      <p>
+        I'm a junior software engineer based in Bristol, working across
+        embedded systems and cloud/backend development. My degree in Computer
+        Science at Lancaster University leaned heavily into distributed and
+        embedded systems &mdash; C, Assembly, GPIO, I2C, UART, EEPROM &mdash;
+        and that low-level curiosity still shapes most of what I build. I also
+        completed the Code Institute Full Stack Developer Bootcamp, which gave
+        me a Django-focused grounding in web development.
+      </p>
 
-    <h2>Technical Journey</h2>
-    <p>
-      I am interested in building scalable systems primarily in Java and I am actively learning Rust for its performance benefits and memory safety.
-      My recent completion of the Cloud Resume Challenge demonstrates my hands-on experience with cloud technologies,
-      and my current project developing a mental health planner using the Spring Framework is  part of my goal to create technology that makes a positive impact.
-    </p>
+      <h2>Technical journey</h2>
+      <p>
+        Rust is the common thread through my current work. I rebuilt the
+        backend of my AWS Cloud Resume Challenge as a Rust Lambda, cutting
+        cold starts by over 97% and response times from roughly 140ms down to
+        6&ndash;8ms, and later migrated the frontend to Cloudflare Pages after
+        an AWS billing scare taught me not to keep all my eggs in one
+        provider's basket. On the systems side, I'm building a Game Boy
+        emulator in Rust from scratch &mdash; CPU emulation, cycle-accurate
+        timers, memory mapping, and now working towards getting Tetris
+        running. I've also worked with Django and Spring/React, including
+        leading the technical build of a booking platform during a
+        three-day hackathon.
+      </p>
 
-    <h2>Professional Development</h2>
-    <p>
-      I stay actively engaged with the tech community, attending industry talks that explore different facets of technology.
-      These talks fuel my curiosity, allow me to connect with new people, and keep me connected with trends in software development.
-    </p>
+      <h2>Professional development</h2>
+      <p>
+        I stay involved in the tech community by attending industry talks.
+        They keep my curiosity fed, introduce me to new people, and help me
+        keep up with where software development is heading.
+      </p>
 
-    <h2>Community Impact</h2>
-    <p>
-      I believe in technology's power to improve lives and have been involved in my community. I previously volunteered to help elderly community members bridge the digital divide, by helping them maintain their computers and teaching them to use essential online services.
-      During university, I was an esports coordinator, where I helped form competitive teams and organise events. The university achieved a top 10 ranking in collegiate esports during my tenure.
-    </p>
+      <h2>Community impact</h2>
+      <p>
+        I've volunteered helping elderly community members bridge the digital
+        divide &mdash; maintaining their computers and teaching them to use
+        essential online services.
+      </p>
 
-    <h2>Life Outside Tech</h2>
-    <p>
-      When I'm away from programming, you'll find me in the kitchen baking up sweet treats from cakes to gooey chocolatey brownies! Or exploring the tranquil paths of Westonbirt Arboretum. Getting away from software development, allows me to return to challenging problems with fresh perspective.
-    </p>
+      <h2>Life outside tech</h2>
+      <p>
+        Away from the keyboard, I'm usually baking &mdash; cakes, gooey
+        chocolate brownies, you name it &mdash; walking the paths at
+        Westonbirt Arboretum, or working through French (currently somewhere
+        around A1-A2). Stepping away from a problem is often what makes the
+        solution obvious when I come back to it.
+      </p>
 
-    <h2>Current Focus</h2>
-    <p>
-      My current focus lies in expanding my expertise in cloud computing, particularly exploring Java Spring, and cloud architectures. I'm passionate about learning new technologies and applying my new knowledge to build better, efficient, and scalable solutions.
-    </p>
-  </div>
+      <h2>Current focus</h2>
+      <p>
+        Right now I'm deepening my embedded and systems programming skills
+        while finishing the Game Boy emulator, and applying for junior
+        embedded and cloud/backend roles. I've also been building and
+        deploying Focus Companion, an ADHD-friendly focus app with a Next.js
+        frontend on Vercel and a Spring backend on Heroku, using Clerk for
+        auth, Postgres for storage, and Docker throughout &mdash; with data
+        now encrypted at rest.
+      </p>
+    </div>
   </section>
 </BaseLayout>
