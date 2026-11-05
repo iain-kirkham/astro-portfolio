@@ -6,7 +6,7 @@ For backend and infrastructure code, see the [backend repository](https://github
 
 **Live Demo:** https://iainkirkham.dev
 
-## ✨ Key Features
+## Key Features
 
 - **Portfolio Content:** Displays a curated selection of projects, blog posts, and contact links.
 - **Dynamic Visitor Counter:** Uses React to call the Rust Lambda API and update counts in real time.
@@ -15,7 +15,7 @@ For backend and infrastructure code, see the [backend repository](https://github
 - **Type Safety:** TypeScript used across the frontend codebase.
 - **End-to-End Testing:** Playwright tests validate user-facing behavior.
 
-## 🚀 Performance Optimisations
+## Performance Optimisations
 
 - **Font fallback optimisation (Fontaine):** `FontaineTransform.vite(...)` is configured in `astro.config.mjs` to generate metric-compatible fallbacks (using Arial) and reduce layout shift while custom fonts load.
 - **Efficient font loading:** Fonts are preloaded in `src/layouts/BaseLayout.astro`, and `font-display: swap` is used in `src/styles/global.css`.
@@ -23,14 +23,14 @@ For backend and infrastructure code, see the [backend repository](https://github
 - **Asset minimisation/compression:** `playformCompress()` in `astro.config.mjs` compresses build output for smaller payloads.
 - **Static-first rendering:** Astro's static output keeps runtime JavaScript low by default, with hydration only where needed.
 
-## 💻 Technologies Used
+## Technologies Used
 
 - **Static Site Generator:** [Astro](https://astro.build/)
 - **Interactivity:** [React](https://react.dev/)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **Testing:** [Playwright](https://playwright.dev/)
 
-## ⚠️ Requirements
+## Requirements
 
 * **[Node.js](https://nodejs.org/en):** Version 22.x or higher.
 * **[pnpm](https://pnpm.io/installation):** Package manager for JavaScript.
@@ -41,11 +41,11 @@ For backend and infrastructure code, see the [backend repository](https://github
 2. Run the development server: `pnpm run dev` (Access at http://localhost:4321)
 3. Build the static site: `pnpm run build` (Output in `dist/`)
 
-## ⚙️ Testing
+## Testing
 
 This project includes end-to-end tests for the frontend, written with Playwright. These tests can be run using `pnpm exec playwright test`.
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 ├── .github/                  # Contains GitHub Actions workflows for deployment and testing

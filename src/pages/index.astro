@@ -12,18 +12,19 @@ const sortedPosts = sortByDateDesc(allPosts);
 <BaseLayout pageTitle={pageTitle}>
   <section class="py-16 border-b border-border">
     <p class="meta mb-4 text-muted">Software engineer</p>
-    <h1 class="text-5xl sm:text-6xl font-black tracking-tight text-balance">
+    <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight text-balance">
       Hi, I&rsquo;m Iain Kirkham
     </h1>
     <p class="text-lg text-muted mt-6 max-w-2xl">
-      Software engineer, lifelong learner, and cloud enthusiast. I write about
-      AWS, Spring Boot, and Rust adventures.
+      I build things with AWS, Spring Boot, and (lately) Rust, and write
+      about what I learn along the way &mdash; from cloud projects to
+      testing practices and the odd conference talk.
     </p>
     <a
       href="/about"
-      class="meta inline-block mt-8 text-accent hover:underline"
+      class="meta inline-block mt-8 text-muted transition-colors hover:text-accent hover:underline"
     >
-      Read more about me &rarr;
+      Read more about me <span class="text-accent">&rarr;</span>
     </a>
   </section>
 
